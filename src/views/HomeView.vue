@@ -10,6 +10,7 @@
     const ticketToShow = ref<null | Ticket>(null)
     const tickets = ref<null | Ticket[]>(null)
     const searchInput = ref("")
+    const isModalShown = ref(false)
 
     const store = useUserStore()
     const { role, department, token } = storeToRefs(store)
@@ -42,6 +43,14 @@
             }
         }
     })
+
+    function updateIsModalShown() {
+        isModalShown.value = !isModalShown.value
+    }
+
+    function closeModal() {
+        updateIsModalShown()
+    }
 
     function searchTicket() {
         let text = ""
@@ -122,6 +131,7 @@
             <div><strong>Pending tickets</strong> - See a list of all your remaining tickets as well as its current status.</div>
             <div><strong>Completed tickets</strong> - See a list of all the tickets that had been approved/rejected.</div>
             <div><strong>Create ticket</strong> - Create a ticket to be reviewed by the Director, HSU, HR, SDAS, and Finance.</div>
+            <div>Using the system means that you agree to our policies and guidelines. Click <strong><a  class="home__policy" @click="updateIsModalShown">here</a></strong> to review.</div>
         </div>
         <div v-else class="home__copy">
             <form @submit.prevent="searchTicket">
@@ -140,7 +150,37 @@
             <div><strong>Pending tickets</strong> - See a list of all the tickets that need your action.</div>
             <div><strong>Completed tickets</strong> - See a list of all the tickets that had moved forward.</div>
             <div><strong>Forecast</strong> - Get a view of the expected count of requests throughout the year.</div>
+            <div>For a refresher on our policies and guidelines, please click <strong><a  class="home__policy" @click="updateIsModalShown">here</a></strong>.</div>
         </div>
+        <Teleport to="#app">
+            <base-modal class="modal" v-if="isModalShown">
+                <div class="modal__content">
+                    <div class="modal__header">
+                        <div class="modal__title">Policies and Guidelines</div>
+                        <div @click="closeModal" class="modal__close"></div>
+                    </div>
+                    <div>1. Medicines shall be prescribed by a Health Services Unit (HSU) Physician. For medicines prescribed by other physicians, the medical prescription shall be submitted to the HSU physician for proper validation and entry in the medical referral form.</div>
+                    <div>2. Maintenance medicines shall be prescribed for 30 days.</div>
+                    <div>3. Vitamins may be prescribed if required as a care for a diagnosed illness, quantity should be good for 30 days.</div>
+                    <div>4. Immunizations may be availed through the medicine allowance provided that the amount of the immunization package is covered by the medicine allowance.</div>
+                    <div>5. This benefit shall not cover medicines for the following:</div>
+                    <div class="modal__subcopy">
+                        <div>a. Injury due to insanity or self-infliction;</div>
+                        <div>b. Drug addiction or alcoholism;</div> 
+                        <div>c. Injury sustained in bars, gambling houses or disreputable places or in participating in the commission of a crime; </div>
+                        <div>d. Sexually transmitted diseases;</div>
+                        <div>e. Functional disorder of the mind;</div>
+                        <div>f. Prosthetic work and appliances needed for the procedures such as brace, metal implants and the amount of the stents;</div>
+                        <div>g. Cosmetic purposes including dermatological for purposes not intended for curative purposes;</div>
+                        <div>h. All other cases of similar nature </div>
+                    </div>
+                    <div>6. Reimbursements for medicines during confinement should be covered by an approved Medicine Referral Form (MRF) and the claim should be covered by official statement of expenses and official receipt.</div>
+                    <div>7. All MRFs shall be subject to approval of the SDAS.</div>
+                    <div>8. Medicine reimbursements should be covered by an official receipt and prescription. Procedures for reimbursements shall follow our procedure in requesting for Petty Cash/Check Requests. Official receipts shall be recommended for payment by the SDAS.</div>
+                    <div>9. The services provided and the medicines prescribed shall be for the treatment of a diagnosed illness or injury and for the benefit solely of the associate.</div>                    
+                </div>
+            </base-modal>
+        </Teleport>
     </section>
 </template>
 
@@ -197,5 +237,38 @@
     }
     input:focus {
         outline: none;
+    }
+    .home__policy {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .modal__content {
+        width: 900px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        letter-spacing: 1px;
+    }
+    .modal__header {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.8rem 0rem;
+    }
+    .modal__title {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    .modal__close {
+        background-image: url("../assets/close.svg");
+        background-size: cover;
+        width: 1.5rem;
+        height: 1.5rem;
+        cursor: pointer;
+    }
+    .modal__subcopy {
+        padding-left: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;        
     }
 </style>

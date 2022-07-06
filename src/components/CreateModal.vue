@@ -5,7 +5,9 @@
     const store = useCreateStore()
     const { 
         isModalDisplayed,
+        isDateEmpty,
         isAmountUnderMin,
+        isNatureEmpty,
         reimbursements,
         reimbursementDate,
         reimbursementAmount,
@@ -28,11 +30,25 @@
             rowNumber: null
         }
 
+        if (reimbursementDate.value === "") {
+            store.updateIsDateEmpty()
+            return
+        } else {
+            store.updateIsDateEmpty()
+        }
+
         if (reimbursementAmount.value < 300) {
             store.updateIsAmountUnderMin()
             return
         } else {
             store.updateIsAmountUnderMin()
+        }
+
+        if (reimbursementNature.value === "") {
+            store.updateIsNatureEmpty()
+            return
+        } else {
+            store.updateIsNatureEmpty()
         }
 
         if (!reimbursements.value) {
@@ -55,11 +71,25 @@
             rowNumber: null
         }
 
+        if (reimbursementDate.value === "") {
+            store.updateIsDateEmpty()
+            return
+        } else {
+            store.updateIsDateEmpty()
+        }
+
         if (reimbursementAmount.value < 300) {
             store.updateIsAmountUnderMin()
             return
         } else {
             store.updateIsAmountUnderMin()
+        }
+
+        if (reimbursementNature.value === "") {
+            store.updateIsNatureEmpty()
+            return
+        } else {
+            store.updateIsNatureEmpty()
         }
 
         const index = indexToUpdate.value
@@ -98,6 +128,7 @@
                 <div class="modal__label">Expenditure Date</div>
                 <input type="date" v-model="reimbursementDate" />
             </div>
+            <div class="error" v-if="isDateEmpty">Please choose a date.</div>
             <div class="modal__input">
                 <div class="modal__label">Amount</div>
                 <input type="number" v-model="reimbursementAmount" />
@@ -107,6 +138,7 @@
                 <div class="modal__label">Nature of Expenditure</div>
                 <input type="text" v-model="reimbursementNature" />
             </div>
+            <div class="error" v-if="isNatureEmpty">Please enter nature of expense.</div>
             <base-button v-if="modifyType === 'add'" @click="addReimbursement" mode="dark" class="modal__add">Add</base-button>
             <base-button v-if="modifyType === 'update'" @click="updateReimbursement" mode="dark" class="modal__add">Update</base-button>
         </base-modal>

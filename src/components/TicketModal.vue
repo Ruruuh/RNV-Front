@@ -97,14 +97,17 @@
 
     async function updateTicket() {
         nprogress.start()
-        if (!balance.value || !amount.value || !preparedBy.value) {
-            ticketStore.updateIsBalanceEmpty()
-            ticketStore.updateIsModalShown()
-            nprogress.done()
+        if (role.value === "hr") {
+            if (!balance.value || !amount.value || !preparedBy.value) {
+                ticketStore.updateIsBalanceEmpty()
+                ticketStore.updateIsModalShown()
+                nprogress.done()
             return
-        } else {
-            ticketStore.updateIsBalanceEmpty()
+            } else {
+                ticketStore.updateIsBalanceEmpty()
+            }
         }
+
         if (publicRemarksInput.value === "" || privateRemarksInput.value === "") {
             ticketStore.updateIsInputBlank()
             ticketStore.updateIsModalShown()
@@ -177,7 +180,8 @@
             <div class="modal__content">
                 <div>Hey, there.</div>
                 <div>The changes from this action is not reversible.</div>
-                <div>Before saving, please check if everything is correct.</div>
+                <div v-if="mode === 'update'">Before saving, please check if everything is correct.</div>
+                <div v-if="mode === 'reject'">Before rejecting, please check if everything is correct.</div>
                 <div>Done double checking? Please click below.</div> 
             </div>
             <base-button @click="updateTicket" v-if="mode === 'update'" mode="darkSmall">Save</base-button>

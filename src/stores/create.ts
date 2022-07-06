@@ -10,7 +10,9 @@ export const useCreateStore = defineStore({
 
         isOfficeEmpty: false,
         isDepartmentEmpty: false,
+        isDateEmpty: false,
         isTotalBelowMin: false,
+        isNatureEmpty: false,
         isUploadEmpty: false,
         isModalDisplayed: false,
         isAmountUnderMin: false,
@@ -51,11 +53,25 @@ export const useCreateStore = defineStore({
                 this.isTotalBelowMin = false
             }
         },
+        updateIsDateEmpty() {
+            if (this.reimbursementDate === "") {
+                this.isDateEmpty = true
+            } else {
+                this.isDateEmpty = false
+            }
+        },
         updateIsAmountUnderMin() {
             if (this.reimbursementAmount < 300) {
                 this.isAmountUnderMin = true
             } else {
                 this.isAmountUnderMin = false
+            }
+        },
+        updateIsNatureEmpty() {
+            if (this.reimbursementNature === "") {
+                this.isNatureEmpty = true
+            } else {
+                this.isNatureEmpty = false
             }
         },
         updateIsUploadEmpty() {

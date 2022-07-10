@@ -5,7 +5,12 @@
 
     const store = useCreateStore()
 
-    const { purpose, office, department, isOfficeEmpty, isDepartmentEmpty } = storeToRefs(store)
+    const { purpose, 
+            office, 
+            department, 
+            isPurposeEmpty,
+            isOfficeEmpty, 
+            isDepartmentEmpty } = storeToRefs(store)
 
     const currentDate = computed(() => {
         const today = new Date().toISOString()
@@ -25,6 +30,7 @@
             <div class="ticket__label">Purpose</div>
             <input type="text" v-model="purpose" required />
         </div>
+        <div v-if="isPurposeEmpty" class="error">Please state purpose.</div>
         <div class="ticket__row">
             <div class="ticket__label">Office</div>
             <select class="ticket__office" v-model="office">
@@ -38,6 +44,7 @@
                 <option value="FEU Roosevelt">FEU Roosevelt</option>
             </select>
         </div>
+        <div v-if="isOfficeEmpty" class="error">Please choose an office.</div>
         <div class="ticket__row">
             <div class="ticket__label">Department</div>
             <select class="ticket__department" v-model="department">
@@ -53,8 +60,7 @@
                 <option value="Humanities, Social Sciences, and Communication">Humanities, Social Sciences, and Communication</option>
             </select>
         </div>
-        <div v-if="isOfficeEmpty" class="error">Please choose an office.</div>
-        <div v-if="isDepartmentEmpty" class="error">Please choose an department.</div>
+        <div v-if="isDepartmentEmpty" class="error">Please choose a department.</div>
     </div>
 </template>
 

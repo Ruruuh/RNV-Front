@@ -51,6 +51,13 @@
 
     async function createTicket() {
         nprogress.start()
+        if (purpose.value === "") {
+            createStore.updateIsPurposeEmpty()
+            nprogress.done()
+            return
+        } else {
+            createStore.updateIsPurposeEmpty()
+        }
         if (office.value === "") {
             createStore.updateIsOfficeEmpty()
             nprogress.done()
@@ -58,7 +65,6 @@
         } else {
             createStore.updateIsOfficeEmpty()
         }
-
         if (department.value === "") {
             createStore.updateIsDepartmentEmpty()
             nprogress.done()
@@ -142,6 +148,7 @@
         office.value = ""
         department.value = ""
         reimbursements.value = null
+        reimbursementTotal.value = 0
         files.value =  null
 
         nprogress.done()

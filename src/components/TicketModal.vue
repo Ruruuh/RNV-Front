@@ -62,13 +62,7 @@
         const name = firstName + " " + lastName
 
         if (!balance.value || !amount.value || !preparedBy.value) {
-            const balanceInfo = {
-                ticketId: ticket.value?.id,
-                name: name,
-                balance: 0,
-                amount: 0,
-                preparedBy: "NA"
-            }
+            const balanceInfo = null
             return balanceInfo
         } else {
             const balanceInfo = {
@@ -160,8 +154,6 @@
         await securePatchReq(url, token.value as string, payload)
 
         ticketStore.$reset()
-        
-        ticketStore.updateIsModalShown()
 
         nprogress.done()
         router.push("/overview/pending")

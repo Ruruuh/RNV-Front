@@ -61,15 +61,25 @@
         const lastName = ticket.value?.creatorInfo.lastName
         const name = firstName + " " + lastName
 
-        const balanceInfo = {
-            ticketId: ticket.value?.id,
-            name: name,
-            balance: balance.value,
-            amount: amount.value,
-            preparedBy: preparedBy.value
+        if (!balance.value || !amount.value || !preparedBy.value) {
+            const balanceInfo = {
+                ticketId: ticket.value?.id,
+                name: name,
+                balance: 0,
+                amount: 0,
+                preparedBy: "NA"
+            }
+            return balanceInfo
+        } else {
+            const balanceInfo = {
+                ticketId: ticket.value?.id,
+                name: name,
+                balance: balance.value,
+                amount: amount.value,
+                preparedBy: preparedBy.value
+            }            
+            return balanceInfo
         }
-
-        return balanceInfo
     }
 
     function getStatus() {
@@ -149,8 +159,7 @@
 
         await securePatchReq(url, token.value as string, payload)
 
-        publicRemarksInput.value = ""
-        privateRemarksInput.value = ""
+        ticketStore.$reset()
         
         ticketStore.updateIsModalShown()
 

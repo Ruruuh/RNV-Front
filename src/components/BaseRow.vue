@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { ref, onBeforeMount } from "vue"
+    import { ref, onBeforeMount, onUpdated } from "vue"
     import { storeToRefs } from "pinia"
     import { useUserStore } from "@/stores/user"
     import { secureGetReq } from "@/helpers/fetch"
@@ -65,6 +65,11 @@
         if (props.mode !== "ticket" && props.mode !== "create") {
             getActionBy()
         }
+    })
+    onUpdated(() => {
+        if (props.mode !== "ticket" && props.mode !== "create") {
+            getActionBy()
+        }     
     })
 </script>
 

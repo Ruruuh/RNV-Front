@@ -1,13 +1,15 @@
 <script setup lang="ts">
+    import { computed } from "vue"
     import { storeToRefs } from "pinia"
     import { useCreateStore } from "@/stores/create"
 
     const store = useCreateStore()
     const { 
         isModalDisplayed,
-        isDateEmpty,
         isAmountUnderMin,
         isNatureEmpty,
+        isDateEmpty,
+        isDateInvalid,
         reimbursements,
         reimbursementDate,
         reimbursementAmount,
@@ -15,6 +17,18 @@
         indexToUpdate,
         modifyType
     } = storeToRefs(store)
+
+    const today = computed(() => {
+        const today = new Date().toLocaleString().slice(0, 9)
+        const todayItem = new Date(today).getTime()
+        return todayItem
+    })
+
+    const date = computed(() => {
+        const date = new Date(reimbursementDate.value).toLocaleString().slice(0, 9)
+        const dateItem = new Date(date).getTime()
+        return dateItem
+    })
 
     function resetData() {
         reimbursementDate.value = ""
@@ -35,6 +49,13 @@
             return
         } else {
             store.updateIsDateEmpty()
+        }
+
+        if (date > today) {
+            store.updateIsDateInvalid()
+            return
+        } else {
+            store.updateIsDateInvalid()
         }
 
         if (reimbursementAmount.value < 300) {
@@ -77,6 +98,13 @@
         } else {
             store.updateIsDateEmpty()
         }
+
+        if (date > today) {
+            store.updateIsDateInvalid()
+            return
+        } else {
+            store.updateIsDateInvalid()
+        }        
 
         if (reimbursementAmount.value < 300) {
             store.updateIsAmountUnderMin()
@@ -128,7 +156,8 @@
                 <div class="modal__label">Expenditure Date</div>
                 <input type="date" v-model="reimbursementDate" />
             </div>
-            <div class="error" v-if="isDateEmpty">Please choose a date.</div>
+            <div class="error" v-if="isDateEmpty">Date cannot be empty. Please try again.</div>
+            <div class="error" v-if="isDateInvalid">Date can only be up until today. Please try again.</div>
             <div class="modal__input">
                 <div class="modal__label">Amount</div>
                 <input type="number" v-model="reimbursementAmount" />

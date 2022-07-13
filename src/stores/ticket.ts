@@ -114,12 +114,12 @@ export const useTicketStore = defineStore({
                 if (this.publicFeedbackObj[role]) {
                     this.publicFeedback[role] = this.publicFeedbackObj[role]
                 } else {
-                    this.publicFeedback[role] = "No feedback available."
+                    this.publicFeedback[role] = "-"
                 }
                 if (this.privateFeedbackObj[role]) {
                     this.privateFeedback[role] = this.privateFeedbackObj[role]
                 } else {
-                    this.privateFeedback[role] = "No feedback available."
+                    this.privateFeedback[role] = "-"
                 }
             })
         }

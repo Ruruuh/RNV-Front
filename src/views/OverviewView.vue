@@ -125,7 +125,9 @@
 <template>
     <section class="overview">
         <div class="overview__header">
-            <div v-if="props.overviewType === 'pending'" class="overview__title">Pending Tickets</div>
+            <div v-if="props.overviewType === 'pending' && role === 'sdas'" class="overview__title">Recommendation for Payment</div>
+            <div v-if="props.overviewType === 'pending' && role === 'finance'" class="overview__title">Tickets for Processing</div>
+            <div v-if="props.overviewType === 'pending' && role !== 'finance' && role !== 'sdas'" class="overview__title">Pending Tickets</div>
             <div v-if="props.overviewType === 'completed'" class="overview__title">Completed Tickets</div>
             <form @submit.prevent="searchTicket">
                 <div class="overview__wrapper">

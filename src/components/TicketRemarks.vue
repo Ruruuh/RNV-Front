@@ -13,6 +13,7 @@
 </script>
 
 <template>
+    <div class="remarks__divider"></div>
     <div class="remarks" v-if="role === 'user'">
         <div class="remarks__header">Remarks</div>
         <div class="remarks__user">
@@ -34,6 +35,7 @@
                 :type = "'public'"
             ></base-remark>
         </div>
+        <div class="remarks__other-divider"></div>
         <div class="remarks__header">Internal Comments</div>
         <div class="remarks__copy">These are feedback that will only be seen by admins.</div>
         <div class="remarks__private">
@@ -57,6 +59,7 @@
                 :type = "'public'"
             ></base-remark>
         </div>
+        <div class="remarks__other-divider"></div>
         <div class="remarks__header">Internal Comments</div>
         <div class="remarks__copy">These are feedback that will only be seen by the admins.</div>
         <div class="remarks__private">
@@ -77,6 +80,17 @@
     .remarks__header {
         font-size: 1.5rem;
         font-weight: 700;
+    }
+    .remarks__divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--neutral-200); 
+        margin: 2rem 0rem;       
+    }
+    .remarks__other-divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--neutral-200);         
     }
     .remarks__user {
         margin: 1rem 0rem;

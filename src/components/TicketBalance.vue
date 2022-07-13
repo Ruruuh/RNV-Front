@@ -16,17 +16,23 @@
         const name = firstName + " " + lastName
         return name
     })
+
+    const currentDate = computed(() => {
+        const today = new Date().toISOString()
+        return today.slice(0, 10)
+    })
 </script>
 
 <template>
+    <div class="balance__divider" v-if="ticket?.balance || role === 'hr'"></div>
     <div class="balance" v-if="ticket?.balance">
-        <div class="balance__header">Balance Info</div>
+        <div class="balance__header">Medicine Balance Info</div>
         <div class="balance__row">
             <div class="balance__label">Name</div>
             <div class="balance__name">{{ fullName }}</div>
         </div>
         <div class="balance__row">
-            <div class="balance__label">Balance</div>
+            <div class="balance__label">Balance as of {{ currentDate }}</div>
             <div class="balance__balance">{{ ticket.balance.balance }}</div>
         </div>
         <div class="balance__row">
@@ -39,13 +45,13 @@
         </div>      
     </div>
     <div class="balance" v-if="role === 'hr' && overview === 'pending'">
-        <div class="balance__header">Balance Info</div>
+        <div class="balance__header">Medicine Balance Info</div>
         <div class="balance__row">
             <div class="balance__label">Name</div>
             <div class="balance__name">{{ fullName }}</div>
         </div>
         <div class="balance__row">
-            <div class="balance__label">Balance</div>
+            <div class="balance__label">Balance as of {{ currentDate }}</div>
             <input type="number" v-model="balance" required />
         </div>
         <div class="balance__row">
@@ -62,7 +68,13 @@
 
 <style scoped>
     .balance {
-        margin: 2rem 0rem;
+        margin: 1rem 0rem;
+    }
+    .balance__divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--neutral-200);
+        margin: 1rem 0rem;        
     }
     .balance__header {
         font-size: 1.5rem;
@@ -76,7 +88,7 @@
     }
     .balance__label {
         font-weight: 700;
-        width: 8rem;
+        width: 16rem;
     }
     input {
         font: inherit;

@@ -179,11 +179,9 @@
             </div>
             <div class="modal__divider"></div>
             <div class="modal__content">
-                <div>Hey, there.</div>
                 <div>The changes from this action is not reversible.</div>
                 <div v-if="mode === 'update'">Before saving, please check if everything is correct.</div>
                 <div v-if="mode === 'reject'">Before rejecting, please check if everything is correct.</div>
-                <div>Done double checking? Please click below.</div> 
             </div>
             <base-button @click="updateTicket" v-if="mode === 'update'" mode="darkSmall">Save</base-button>
             <base-button @click="rejectTicket" v-if="mode === 'reject'" mode="redSmall">Reject</base-button>

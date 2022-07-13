@@ -12,6 +12,7 @@ export const useCreateStore = defineStore({
         isOfficeEmpty: false,
         isDepartmentEmpty: false,
         isDateEmpty: false,
+        isDateInvalid: false,
         isTotalBelowMin: false,
         isNatureEmpty: false,
         isUploadEmpty: false,
@@ -66,6 +67,17 @@ export const useCreateStore = defineStore({
                 this.isDateEmpty = true
             } else {
                 this.isDateEmpty = false
+            }
+        },
+        updateIsDateInvalid() {
+            const today = new Date().toLocaleString().slice(0, 9)
+            const todayItem = new Date(today).getTime()
+            const date = new Date(this.reimbursementDate).toLocaleString().slice(0, 9)
+            const dateItem = new Date(date).getTime()
+            if (dateItem > todayItem) {
+                this.isDateInvalid = true
+            } else {
+                this.isDateInvalid = false
             }
         },
         updateIsAmountUnderMin() {

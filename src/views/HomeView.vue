@@ -243,11 +243,13 @@
         cursor: pointer;
     }
     .modal__content {
-        width: 900px;
+        width: 60vw;
+        max-height: 80vh;
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
         letter-spacing: 1px;
+        overflow-y: scroll;
     }
     .modal__header {
         display: flex;

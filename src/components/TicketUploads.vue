@@ -39,6 +39,7 @@
 </script>
 
 <template>
+    <div class="uploads__divider"></div>
     <div class="uploads">
         <div class="uploads__header">Uploaded Receipt/Prescription</div>
         <div class="uploads__carousel">
@@ -59,6 +60,17 @@
 </template>
 
 <style scoped>
+    .uploads__divider {
+        width: 100%;
+        height: 1px;
+        background-color: var(--neutral-200);
+        margin: 1rem 0rem;
+    }
+    .uploads {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .uploads__header {
         font-size: 1.5rem;
         font-weight: 700;

@@ -38,6 +38,11 @@
     #uploads__input {
         display: none;
     }
+    .uploads {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .uploads__icon {
         background-image: url('../assets/plus.svg');
         background-size: contain;

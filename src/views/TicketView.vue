@@ -34,8 +34,8 @@
 
         ticketstore.updateRowNumbers()
         ticketstore.updateReimbursementTotal()
-        ticketstore.updateApprovedReimbursementTotal()
         ticketstore.getApprovedRows()
+        ticketstore.updateApprovedReimbursementTotal()
         ticketstore.getRemarks()
         nprogress.done()
     }

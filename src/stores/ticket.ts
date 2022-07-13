@@ -46,7 +46,6 @@ export const useTicketStore = defineStore({
         },
         updateApprovedReimbursementTotal() {
             let total = 0
-            this.getApprovedRows()
             this.approvedRows?.forEach(row => {
                 this.ticket?.reimbursements.forEach(item => {
                     if (item.id === row) {

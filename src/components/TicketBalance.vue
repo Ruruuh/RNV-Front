@@ -32,7 +32,7 @@
             <div class="balance__name">{{ fullName }}</div>
         </div>
         <div class="balance__row">
-            <div class="balance__label">Balance as of {{ currentDate }}</div>
+            <div class="balance__label">Balance as of: {{ ticket.balance.createdAt.toISOString().slice(0, 10) }}</div>
             <div class="balance__balance">{{ ticket.balance.balance }}</div>
         </div>
         <div class="balance__row">
@@ -51,7 +51,7 @@
             <div class="balance__name">{{ fullName }}</div>
         </div>
         <div class="balance__row">
-            <div class="balance__label">Balance as of {{ currentDate }}</div>
+            <div class="balance__label">Balance as of: {{ currentDate }}</div>
             <input type="number" v-model="balance" required />
         </div>
         <div class="balance__row">

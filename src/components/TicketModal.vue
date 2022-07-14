@@ -17,7 +17,7 @@
         publicRemarksInput, 
         privateRemarksInput, 
         isModalShown,
-        balance,
+        balanceDate,
         amount,
         preparedBy,
         mode
@@ -61,14 +61,14 @@
         const lastName = ticket.value?.creatorInfo.lastName
         const name = firstName + " " + lastName
 
-        if (!balance.value || !amount.value || !preparedBy.value) {
+        if (!balanceDate.value || !amount.value || !preparedBy.value) {
             const balanceInfo = null
             return balanceInfo
         } else {
             const balanceInfo = {
                 ticketId: ticket.value?.id,
                 name: name,
-                balance: balance.value,
+                balance: balanceDate.value,
                 amount: amount.value,
                 preparedBy: preparedBy.value
             }            
@@ -102,7 +102,7 @@
     async function updateTicket() {
         nprogress.start()
         if (role.value === "hr") {
-            if (!balance.value || !amount.value || !preparedBy.value) {
+            if (!balanceDate.value || !amount.value || !preparedBy.value) {
                 ticketStore.updateIsBalanceEmpty()
                 ticketStore.updateIsModalShown()
                 nprogress.done()

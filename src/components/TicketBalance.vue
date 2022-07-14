@@ -7,7 +7,7 @@
     const userStore = useUserStore()
     const ticketStore = useTicketStore()
     const { role, overview } = storeToRefs(userStore)
-    const { ticket, balance, amount, preparedBy, isBalanceEmpty } = storeToRefs(ticketStore)
+    const { ticket, balanceDate, amount, preparedBy, isBalanceEmpty } = storeToRefs(ticketStore)
 
     const fullName = computed(() => {
         const firstName = ticket.value?.creatorInfo.firstName
@@ -17,10 +17,6 @@
         return name
     })
 
-    const currentDate = computed(() => {
-        const today = new Date().toISOString()
-        return today.slice(0, 10)
-    })
 </script>
 
 <template>
@@ -32,7 +28,7 @@
             <div class="balance__name">{{ fullName }}</div>
         </div>
         <div class="balance__row">
-            <div class="balance__label">Balance as of: {{ ticket.balance.createdAt.toISOString().slice(0, 10) }}</div>
+            <div class="balance__label">Balance as of:</div>
             <div class="balance__balance">{{ ticket.balance.balance }}</div>
         </div>
         <div class="balance__row">
@@ -51,8 +47,8 @@
             <div class="balance__name">{{ fullName }}</div>
         </div>
         <div class="balance__row">
-            <div class="balance__label">Balance as of: {{ currentDate }}</div>
-            <input type="number" v-model="balance" required />
+            <div class="balance__label">Balance as of: </div>
+            <input type="date" v-model="balanceDate" required />
         </div>
         <div class="balance__row">
             <div class="balance__label">Amount</div>
@@ -88,7 +84,7 @@
     }
     .balance__label {
         font-weight: 700;
-        width: 16rem;
+        width: 8rem;
     }
     input {
         font: inherit;

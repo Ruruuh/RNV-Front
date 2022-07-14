@@ -2,7 +2,7 @@
     import { ref, computed, onBeforeMount } from "vue"
     import { storeToRefs } from "pinia"
     import { search } from "@/helpers/search"
-    import { secureGetReq } from "@/helpers/fetch"
+    import { secureGetReq, securePostReq } from "@/helpers/fetch"
     import { useUserStore } from "@/stores/user"
     import type { Ticket } from "@/types"
     import nprogress from "nprogress"
@@ -13,7 +13,7 @@
     const isModalShown = ref(false)
 
     const store = useUserStore()
-    const { role, department, token } = storeToRefs(store)
+    const { userId, role, department, token } = storeToRefs(store)
 
     const roles = ["director", "hsu", "hr", "sdas", "finance", "none"]
     const rolesTitleCase = ["Director", "HSU", "HR", "SDAS", "Finance"]
@@ -118,6 +118,42 @@
         }
     }
 
+    // async function generateTickets() {
+    //     const url = "/api/tickets"
+    //     const tickets = await secureGetReq(url, token.value as string)
+
+    //     let startCrf = 0
+
+    //     tickets.forEach(ticket => {
+    //         if (startCrf < ticket.crf) {
+    //             startCrf = ticket.crf
+    //         }
+    //     })
+
+    //     let currentCrf = startCrf + 1
+
+    //     for (let i = 0; i < 1000; i++) {
+    //         await securePostReq(url, token.value as string, {
+    //             creatorId: userId.value,
+    //             crf: currentCrf,
+    //             purpose: 'test',
+    //             office: 'FEU - Tech',
+    //             department: 'CS',
+    //             actionBy: 'director',
+    //             status: 'Pending Director Approval',
+    //             reimbursements: [{
+    //                 expenseDate: '2022-07-15',
+    //                 expenseAmount: 500,
+    //                 expenseNature: 'test',
+    //                 approved: false
+    //             }],
+    //             images: [{
+    //                 link: 'http://localhost:3333/uploads/mikel-DypO_XgAE4Y-unsplash.jpg'
+    //             }]
+    //         })
+    //         currentCrf += 1
+    //     }
+    // }
     onBeforeMount(() => {
         getAllTickets()
     })
@@ -152,6 +188,7 @@
             <div><strong>Forecast</strong> - Get a view of the expected count of requests throughout the year.</div>
             <div>For a refresher on our policies and guidelines, please click <strong><a  class="home__policy" @click="updateIsModalShown">here</a></strong>.</div>
         </div>
+        <!-- <base-button @click="generateTickets" mode="dark">Generate</base-button> -->
         <Teleport to="#app">
             <base-modal class="modal" v-if="isModalShown">
                 <div class="modal__content">

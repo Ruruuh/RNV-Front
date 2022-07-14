@@ -86,7 +86,7 @@ export interface Balance {
 	createdAt: Date,
 	updatedAt: Date,
 	name: string,
-	balance: number,
+	balance: string,
 	amount: number,
 	preparedBy: string
 }

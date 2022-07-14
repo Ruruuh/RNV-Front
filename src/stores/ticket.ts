@@ -12,7 +12,7 @@ export const useTicketStore = defineStore({
         approvedReimbursementTotal: 0,
         approvedRows: null as null | Array<Number>,
 
-        balance: null as null | Number,
+        balanceDate: "",
         amount: null as null | Number,
         preparedBy: null as null | string,
         isBalanceEmpty: false,
@@ -56,7 +56,7 @@ export const useTicketStore = defineStore({
             this.approvedReimbursementTotal = total
         },
         updateIsBalanceEmpty() {
-            if (!this.balance || !this.amount || !this.preparedBy) {
+            if (!this.balanceDate || !this.amount || !this.preparedBy) {
                 this.isBalanceEmpty = true
             } else {
                 this.isBalanceEmpty = false

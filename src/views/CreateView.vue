@@ -97,6 +97,7 @@
             for (let i = 0; i < reimbursements.value.length; i++) {
                 const reimbursementBody = {
                     expenseDate: reimbursements.value[i].expenseDate,
+                    orNum: reimbursements.value[i].orNum,
                     expenseAmount: reimbursements.value[i].expenseAmount,
                     expenseNature: reimbursements.value[i].expenseNature,
                     approved: false,
@@ -127,7 +128,8 @@
             actionBy: "director",
             status: "Pending Director Action",
             reimbursements: reimbArr,
-            images: images
+            images: images,
+            hasHardcopy: false,
         }
             
         await securePostReq(url, token.value as string, ticketPayload)

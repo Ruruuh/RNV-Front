@@ -10,8 +10,10 @@
         isNatureEmpty,
         isDateEmpty,
         isDateInvalid,
+        isOrEmpty,
         reimbursements,
         reimbursementDate,
+        orNum,
         reimbursementAmount,
         reimbursementNature,
         indexToUpdate,
@@ -32,6 +34,7 @@
 
     function resetData() {
         reimbursementDate.value = ""
+        orNum.value = 0
         reimbursementAmount.value = 0
         reimbursementNature.value = ""
     }
@@ -39,6 +42,7 @@
     function addReimbursement() {
         const item = {
             expenseDate: reimbursementDate.value,
+            orNum: orNum.value,
             expenseAmount: reimbursementAmount.value,
             expenseNature: reimbursementNature.value,
             rowNumber: null
@@ -58,7 +62,14 @@
             store.updateIsDateInvalid()
         }
 
-        if (reimbursementAmount.value < 300) {
+        if (orNum.value === 0) {
+            store.updateIsOrEmpty()
+            return
+        } else {
+            store.updateIsOrEmpty()
+        }
+
+        if (reimbursementAmount.value === 0) {
             store.updateIsAmountUnderMin()
             return
         } else {
@@ -87,6 +98,7 @@
     function updateReimbursement() {
         const updatedItem = {
             expenseDate: reimbursementDate.value,
+            orNum: orNum.value,
             expenseAmount: reimbursementAmount.value,
             expenseNature: reimbursementNature.value,
             rowNumber: null
@@ -106,7 +118,14 @@
             store.updateIsDateInvalid()
         }        
 
-        if (reimbursementAmount.value < 300) {
+        if (orNum.value === 0) {
+            store.updateIsOrEmpty()
+            return
+        } else {
+            store.updateIsOrEmpty()
+        }
+
+        if (reimbursementAmount.value === 0) {
             store.updateIsAmountUnderMin()
             return
         } else {
@@ -159,10 +178,15 @@
             <div class="error" v-if="isDateEmpty">Date cannot be empty. Please try again.</div>
             <div class="error" v-if="isDateInvalid">Date can only be up until today. Please try again.</div>
             <div class="modal__input">
+                <div class="modal__label">OR Number</div>
+                <input type="number" v-model="orNum" />
+            </div>
+            <div class="error" v-if="isOrEmpty">OR number cannot be empty. Please try again.</div>
+            <div class="modal__input">
                 <div class="modal__label">Amount</div>
                 <input type="number" v-model="reimbursementAmount" />
             </div>
-            <div class="error" v-if="isAmountUnderMin">Amount cannot be below 300. Please try again.</div>
+            <div class="error" v-if="isAmountUnderMin">Amount must be greater than 0. Please try again.</div>
             <div class="modal__input">
                 <div class="modal__label">Nature of Expenditure</div>
                 <input type="text" v-model="reimbursementNature" />

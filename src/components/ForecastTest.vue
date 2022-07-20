@@ -1,130 +1,140 @@
 <script setup lang="ts">
-    import { ref } from "vue"
-    import { storeToRefs } from "pinia"
-    import { useForecastStore } from "@/stores/forecast"
-    import { getTestTrainingData, getMonthsAndDays } from "@/helpers/forecast"
-    import * as Plot from "@observablehq/plot"
+import { ref } from "vue"
+import { storeToRefs } from "pinia"
+import { useForecastStore } from "@/stores/forecast"
+import { getTestTrainingData, getMonthsAndDays } from "@/helpers/forecast"
+import * as Plot from "@observablehq/plot"
 
-    const store = useForecastStore()
-    const {
-        startDate,
-        endDate,
-        testEmployees,
-        testDays,
-        qOneLower,
-        qOneUpper,
-        qTwoLower,
-        qTwoUpper,
-        qThreeLower,
-        qThreeUpper,
-        qFourLower,
-        qFourUpper
-    } = storeToRefs(store)
+const store = useForecastStore()
+const {
+    startDate,
+    endDate,
+    testEmployees,
+    testDays,
+    qOneLower,
+    qOneUpper,
+    qTwoLower,
+    qTwoUpper,
+    qThreeLower,
+    qThreeUpper,
+    qFourLower,
+    qFourUpper
+} = storeToRefs(store)
 
-    const display = ref<HTMLElement>()   
-    
-    function getLimits() {
-        const limits = {
-            qOneLower: qOneLower.value,
-            qOneUpper: qOneUpper.value,
-            qTwoLower: qTwoLower.value,
-            qTwoUpper: qTwoUpper.value,
-            qThreeLower: qThreeLower.value,
-            qThreeUpper: qThreeUpper.value,
-            qFourLower: qFourLower.value,
-            qFourUpper: qFourUpper.value
-        }
-        return limits
+const display = ref<HTMLElement>()
+const isModalShown = ref<boolean>(false)
+
+function getLimits() {
+    const limits = {
+        qOneLower: qOneLower.value,
+        qOneUpper: qOneUpper.value,
+        qTwoLower: qTwoLower.value,
+        qTwoUpper: qTwoUpper.value,
+        qThreeLower: qThreeLower.value,
+        qThreeUpper: qThreeUpper.value,
+        qFourLower: qFourLower.value,
+        qFourUpper: qFourUpper.value
     }
+    return limits
+}
 
-    function getChartInput() {
-        const limits = getLimits()
-        const data = getTestTrainingData(limits, testEmployees.value, testDays.value)
-        console.log(data)
+function getChartInput() {
+    const limits = getLimits()
+    const data = getTestTrainingData(limits, testEmployees.value, testDays.value)
+    console.log(data)
 
-        const net = new brain.NeuralNetwork()
-        const output = net.train(data)
-        console.log(output)
+    const net = new brain.NeuralNetwork()
+    const output = net.train(data)
+    console.log(output)
 
-        const chartInput: null | {}[] = []
+    const chartInput: null | {}[] = []
 
-        const dates = getMonthsAndDays(startDate.value as Date, endDate.value as Date)
+    const dates = getMonthsAndDays(startDate.value as Date, endDate.value as Date)
 
-        dates.forEach(date => {
-            const result = net.run([parseInt(date.substring(0, 2))/12, parseInt(date.substring(3, 5))/31])
-            const updatedDate = "2022-" + date
-            chartInput.push({
-                Date: updatedDate,
-                Count: result[0] * testEmployees.value
-            })
+    dates.forEach(date => {
+        const result = net.run([parseInt(date.substring(0, 2)) / 12, parseInt(date.substring(3, 5)) / 31])
+        const updatedDate = "2022-" + date
+        chartInput.push({
+            Date: updatedDate,
+            Count: result[0] * testEmployees.value
         })
+    })
 
-        return chartInput
-    }
+    return chartInput
+}
 
-    function getPlot() {
-        const input = getChartInput()
-        console.log(input)
-        const nnPlot = Plot.plot({
-            x: {
-                type: "utc"
-            },
-            y: {
-                grid: true
-            },
-            marks: [
-                Plot.line(input, {x: "Date", y: "Count"})
-            ],
-            width: 900,
-            height: 562.5
-        })
-        if (display.value?.firstChild) {
-            display.value?.removeChild(display.value?.firstChild)
-            display.value?.appendChild(nnPlot)
-        } else {
-            display.value?.appendChild(nnPlot)
-        }
+function getPlot() {
+    const input = getChartInput()
+    console.log(input)
+    const nnPlot = Plot.plot({
+        x: {
+            type: "utc"
+        },
+        y: {
+            grid: true
+        },
+        marks: [
+            Plot.line(input, { x: "Date", y: "Count" })
+        ],
+        width: 900,
+        height: 562.5
+    })
+    if (display.value?.firstChild) {
+        display.value?.removeChild(display.value?.firstChild)
+        display.value?.appendChild(nnPlot)
+    } else {
+        display.value?.appendChild(nnPlot)
     }
+}
+
+function updateIsModalShown() {
+    isModalShown.value = !isModalShown.value
+}
 </script>
 
 <template>
-    <div class="forecast_test">
+    <div class="forecast__test">
+        <div class="forecast__header">
+            <div class="forecast__header-title">Forecasts</div>
+            <div @click="updateIsModalShown" class="forecast__help"></div>
+        </div>
+        <div class="forecast__divider"></div>
         <div class="forecast__title">Test Forecast</div>
         <div class="forecast__date">
             <label for="forecast__start">Start Date</label>
-            <input type="date" v-model="startDate" id="forecast__start"/>
+            <input type="date" v-model="startDate" id="forecast__start" />
         </div>
         <div class="forecast__date">
             <label for="forecast__start">End Date</label>
-            <input type="date" v-model="endDate" id="forecast__end"/>
+            <input type="date" v-model="endDate" id="forecast__end" />
         </div>
         <div class="forecast__amount">
-            <label for="forecast__employees">Number of Employees</label>                
-            <input type="number" v-model="testEmployees" id="forecast__employees"/>
+            <label for="forecast__employees">Number of Employees</label>
+            <input type="number" v-model="testEmployees" id="forecast__employees" />
         </div>
         <div class="forecast__amount">
-            <label for="forecast__days">Number of Days</label>                
-            <input type="number" v-model="testDays" id="forecast__days"/>
+            <label for="forecast__days">Number of Days</label>
+            <input type="number" v-model="testDays" id="forecast__days" />
         </div>
         <div class="forecast__range">
             <label for="forecast__range">First Quarter</label>
-            <input type="number" v-model="qOneLower" id="forecast__range"/>
-            <input type="number" v-model="qOneUpper" id="forecast__range"/>
+            <input type="number" v-model="qOneLower" id="forecast__range" />
+            <input type="number" v-model="qOneUpper" id="forecast__range" />
         </div>
         <div class="forecast__range">
             <label for="forecast__range">Second Quarter</label>
-            <input type="number" v-model="qTwoLower" id="forecast__range"/>
-            <input type="number" v-model="qTwoUpper" id="forecast__range"/>
+            <input type="number" v-model="qTwoLower" id="forecast__range" />
+            <input type="number" v-model="qTwoUpper" id="forecast__range" />
         </div>
         <div class="forecast__range">
             <label for="forecast__range">Third Quarter</label>
-            <input type="number" v-model="qThreeLower" id="forecast__range"/>
-            <input type="number" v-model="qThreeUpper" id="forecast__range"/>
+            <input type="number" v-model="qThreeLower" id="forecast__range" />
+            <input type="number" v-model="qThreeUpper" id="forecast__range" />
         </div>
         <div class="forecast__range">
             <label for="forecast__range">Fourth Quarter</label>
-            <input type="number" v-model="qFourLower" id="forecast__range"/>
-            <input type="number" v-model="qFourUpper" id="forecast__range"/>
+            <input type="number" v-model="qFourLower" id="forecast__range" />
+            <input type="number" v-model="qFourUpper" id="forecast__range" />
         </div>
         <base-button @click="getPlot" mode="dark">Forecast</base-button>
         <div class="forecast__title">Test Forecast Output</div>
@@ -132,68 +142,198 @@
             <div class="forecast__placeholder">Forecast using test data will show up here.</div>
         </div>
     </div>
+    <Teleport to="#app">
+        <base-modal v-if="isModalShown">
+                <div class="forecast__close-wrapper">
+                    <div @click="updateIsModalShown" class="forecast__close"></div>
+                </div>
+            <div class="forecast__modal">
+                <div class="modal__title">Forecast Output</div>
+                <img class="modal__graph" src="../assets/graph.PNG"/>
+                <div class="modal__title">Input Definitions</div>
+                <div class="modal__row">
+                    <div class="modal__word">Start Date</div>
+                    <div class="modal__desc">This is the date when you want the output graph to start.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">End Date</div>
+                    <div class="modal__desc">This is the date when you want the output graph to end.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Number of Employees</div>
+                    <div class="modal__desc">This is the number of employees you want the model to consider.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Number of Days</div>
+                    <div class="modal__desc">This is the number of random data generated. A single piece of datum
+                        consists
+                        of a random input and output. The input consists of two values: one representing the month, and
+                        another representing the day. The output is a random percentage of the number of employees that
+                        files a ticket on the date generated in the input.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">First Quarter</div>
+                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
+                        percentage of employees generated for a piece of datum for the first quarter.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Second Quarter</div>
+                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
+                        percentage of employees generated for a piece of datum for the second quarter.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Third Quarter</div>
+                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
+                        percentage of employees generated for a piece of datum for the third quarter.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Fourth Quarter</div>
+                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
+                        percentage of employees generated for a piece of datum for the fourth quarter.</div>
+                </div>
+                <div class="modal__title">Forecast Definitions</div>
+                <div class="modal__row">
+                    <div class="modal__word">Test Forecast</div>
+                    <div class="modal__desc">This uses a user-specified number of randomly generated data for training
+                        and
+                        validating the neural network model. Aside from that, there are constraints for the number of
+                        request tickets for each quarter of the year. The reasoning behind this is to ensure the
+                        capability
+                        of the model to provide results provided that it is trained with a large dataset. This gives us
+                        additional confidence that the forecasting model works as intended in the absence of a large
+                        dataset
+                        to use for training.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Actual Forecast</div>
+                    <div class="modal__desc">This uses the actual number of tickets at their created dates in order to
+                        train
+                        and validate the forecasting model.</div>
+                </div>
+            </div>
+        </base-modal>
+    </Teleport>
 </template>
 
 <style scoped>
-    .forecast {
-        width: 900px;
-    }
-    .forecast__header {
-        font-size: 2rem;
-        font-weight: 700;
-        padding: 1rem 0rem;
-    }
-    .forecast__divider {
-        width: 100%;
-        height: 1px;
-        background-color: var(--neutral-200);
-    }
-    .forecast__title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        padding: 0.8rem 0rem;
-    }
-    .forecast__date,
-    .forecast__amount,
-    .forecast__range {
-        display: flex;
-        align-items: center;
-        padding: 0.5rem 0rem;
-        gap: 2rem;
-    }
-    #forecast__start,
-    #forecast__end {
-        width: 10rem;
-    }
-    #forecast__employees,
-    #forecast__days,
-    #forecast__range {
-        width: 5rem;
-    }
-    input {
-        font: inherit;
-        padding: 0.2rem;
-        width: 24rem;
-        text-align: center;
-    }
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-        appearance: none;
-    }
-    label {
-        font-weight: 700;
-        width: 12rem;
-    }
-    .forecast__display {
-        width: 900px;
-        height: 600px;
-    }
-    .forecast__placeholder {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border: 1px dashed var(--neutral-700);
-    }
+.forecast {
+    width: 900px;
+}
+
+.forecast__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forecast__header-title {
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 1rem 0;
+}
+
+.forecast__help {
+    background-image: url("../assets/help.svg");
+    background-size: cover;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.forecast__divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--neutral-200);
+}
+
+.forecast__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.8rem 0rem;
+}
+
+.forecast__date,
+.forecast__amount,
+.forecast__range {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0rem;
+    gap: 2rem;
+}
+
+#forecast__start,
+#forecast__end {
+    width: 10rem;
+}
+
+#forecast__employees,
+#forecast__days,
+#forecast__range {
+    width: 5rem;
+}
+
+input {
+    font: inherit;
+    padding: 0.2rem;
+    width: 24rem;
+    text-align: center;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    appearance: none;
+}
+
+label {
+    font-weight: 700;
+    width: 12rem;
+}
+
+.forecast__display {
+    width: 900px;
+    height: 600px;
+}
+
+.forecast__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed var(--neutral-700);
+}
+
+.forecast__modal {
+    width: 50vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    letter-spacing: 1px;
+    overflow: auto;
+}
+.forecast__close-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+.forecast__close {
+    background-image: url("../assets/close.svg");
+    background-size: cover;
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+.modal__graph {
+    max-width: 100%;
+}
+
+.modal__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.modal__word {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
 </style>

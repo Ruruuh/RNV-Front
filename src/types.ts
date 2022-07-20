@@ -20,7 +20,8 @@ export interface UserResponse {
     	firstName: string,
 	    lastName: string,
     	role: string,
-		department: string
+		department: string,
+		balance: number | null,
   	},
 	token: string,
 	message: string | null
@@ -41,11 +42,13 @@ export interface StatePayload {
 	firstName: string,
 	lastName: string,
 	role: string,
-	department: string
+	department: string,
+	balance: number | null
 }
 
 export interface Reimbursement {
 	expenseDate: string,
+	orNum: number,
 	expenseAmount: number,
 	expenseNature: string,
 	rowNumber: null | number
@@ -86,7 +89,7 @@ export interface Balance {
 	createdAt: Date,
 	updatedAt: Date,
 	name: string,
-	balance: string,
+	balanceDate: string,
 	amount: number,
 	preparedBy: string
 }
@@ -109,6 +112,8 @@ export interface Ticket {
 	balance: Balance
 	creatorInfo: {
 		firstName: string,
-		lastName: string
+		lastName: string,
+		balance: null | number,
+		email: string
 	}
 }

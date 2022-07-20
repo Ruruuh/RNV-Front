@@ -9,7 +9,7 @@
         completed.value = []
         pending.value = []
 
-        const roles = ['director', 'hsu', 'hr', 'sdas', 'finance']
+        const roles = ['director', 'hsu', 'hr', 'sdas', 'user', 'finance']
         const roleIndex = roles.indexOf(props.actionBy)
 
         if (props.actionBy === "none") {

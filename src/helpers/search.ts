@@ -52,3 +52,25 @@ export const search = (pattern: string, text: string)  => {
 
     return shift
 }
+
+export const searchMultiple = (pattern: string, text: string)  => {
+    const shiftObj = getShiftObj(pattern)
+    let shift = 0
+    let textSubstr = text.substring(0, pattern.length)
+
+    const indexArr: number[] = []
+
+    while (shift < text.length - pattern.length) {
+        if (pattern === textSubstr) {
+            indexArr.push(shift)
+            shift += pattern.length 
+        }
+
+        const newIndex = getNewIndex(pattern, text, shift)
+        shift += getShift(shiftObj, pattern, text, newIndex)
+
+        textSubstr = text.substring(shift, shift + pattern.length)
+    }
+
+    return indexArr 
+}

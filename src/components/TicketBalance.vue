@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { computed } from "vue"
+    import { computed, ref } from "vue"
     import { storeToRefs } from 'pinia'
     import { useUserStore } from "@/stores/user"
     import { useTicketStore } from '@/stores/ticket'
@@ -7,7 +7,7 @@
     const userStore = useUserStore()
     const ticketStore = useTicketStore()
     const { role, overview } = storeToRefs(userStore)
-    const { ticket, balanceDate, amount, preparedBy, isBalanceEmpty } = storeToRefs(ticketStore)
+    const { ticket, approvedReimbursementTotal, balanceDate, currentBalance, preparedBy, isBalanceEmpty } = storeToRefs(ticketStore)
 
     const fullName = computed(() => {
         const firstName = ticket.value?.creatorInfo.firstName
@@ -15,6 +15,16 @@
 
         const name = firstName + " " + lastName
         return name
+    })
+
+    const amount = computed(() => {
+        if (!ticket.value?.creatorInfo.balance) {
+            if (currentBalance.value) {
+                return currentBalance.value - approvedReimbursementTotal.value
+            }
+        } else {
+            return ticket.value.creatorInfo.balance - approvedReimbursementTotal.value
+        }
     })
 
 </script>
@@ -29,7 +39,7 @@
         </div>
         <div class="balance__row">
             <div class="balance__label">Balance as of:</div>
-            <div class="balance__balance">{{ ticket.balance.balance }}</div>
+            <div class="balance__balance">{{ ticket.balance.balanceDate }}</div>
         </div>
         <div class="balance__row">
             <div class="balance__label">Amount</div>
@@ -50,9 +60,14 @@
             <div class="balance__label">Balance as of: </div>
             <input type="date" v-model="balanceDate" required />
         </div>
+        <div class="balance__row" v-if="!ticket?.creatorInfo.balance">
+            <div class="balance__label">Balance</div>
+            <input type="number" v-model="currentBalance" required />
+        </div>
+        <div class="balance__note" v-if="!ticket?.creatorInfo.balance">*Balance has not been set for this user. Please enter.</div>
         <div class="balance__row">
             <div class="balance__label">Amount</div>
-            <input type="number" v-model="amount" required />
+            <div class="balance__amount">{{ amount }}</div>
         </div>  
         <div class="balance__row">
             <div class="balance__label">Prepared By</div>

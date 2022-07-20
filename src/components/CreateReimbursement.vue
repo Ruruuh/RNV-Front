@@ -54,8 +54,9 @@
             <div class="reimbursement__column-headers">
                 <div>Row #</div>
                 <div>Expense Date</div>
+                <div>OR Number</div>
                 <div>Amount</div>
-                <div>Nature of Expenditure</div>
+                <div>Nature</div>
                 <div>Actions</div>
             </div>
         </div>
@@ -67,6 +68,7 @@
             :key="item.rowNumber"
             :rowNumber="item.rowNumber"
             :date="item.expenseDate"
+            :orNum="item.orNum"
             :amount="item.expenseAmount"
             :nature="item.expenseNature"
             mode="create"
@@ -92,7 +94,7 @@
         align-items: center;
         padding: 1rem 0rem;
         border-bottom: 1px solid var(--neutral-200);
-        grid-template-columns: 1fr 1fr 1fr 2fr 2fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
     }
     .reimbursement__column-headers div {
         text-align: center;

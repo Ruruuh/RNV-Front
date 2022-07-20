@@ -13,6 +13,7 @@ export const useCreateStore = defineStore({
         isDepartmentEmpty: false,
         isDateEmpty: false,
         isDateInvalid: false,
+        isOrEmpty: false,
         isTotalBelowMin: false,
         isNatureEmpty: false,
         isUploadEmpty: false,
@@ -21,6 +22,7 @@ export const useCreateStore = defineStore({
 
         reimbursements: null as null | Reimbursement[],
         reimbursementDate: "",
+        orNum: 0,
         reimbursementAmount: 0,
         reimbursementNature: "",
         reimbursementTotal: 0,
@@ -80,8 +82,15 @@ export const useCreateStore = defineStore({
                 this.isDateInvalid = false
             }
         },
+        updateIsOrEmpty() {
+            if (this.orNum === 0) {
+                this.isOrEmpty = true
+            } else {
+                this.isOrEmpty = false
+            }
+        },
         updateIsAmountUnderMin() {
-            if (this.reimbursementAmount < 300) {
+            if (this.reimbursementAmount === 0) {
                 this.isAmountUnderMin = true
             } else {
                 this.isAmountUnderMin = false

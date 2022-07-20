@@ -45,7 +45,7 @@
             email: email.value,
             password: password.value,
             role: 'user',
-            department: "NA"
+            department: "NA",
         }
 
         const response = await store.register(payload)

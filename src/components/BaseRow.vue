@@ -13,6 +13,7 @@
         rowNumber:Number,
         crf: Number,
         date: String,
+        orNum: Number,
         amount: Number,
         status: String,
         nature: String,
@@ -78,6 +79,7 @@
         <div>{{ props.rowNumber }}</div>
         <div v-if="props.mode === 'overview'">{{ props.crf }}</div>
         <div>{{ props.date }}</div>
+        <div v-if="props.mode !== 'overview'">{{ props.orNum }}</div>
         <div v-if="props.mode !== 'overview'">{{ props.amount }}</div>
         <div v-if="props.mode === 'overview'">{{ props.status }}</div>
         <div v-if="props.mode !== 'overview'">{{ props.nature }}</div>
@@ -107,7 +109,7 @@
         align-items: center;
         padding: 0.5rem 0rem;
         border-bottom: 1px solid var(--neutral-200);
-        grid-template-columns: 1fr 1fr 1fr 2fr 2fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr;
     }
     .overview {
         display: grid;
@@ -123,7 +125,7 @@
         align-items: center;
         padding: 0.5rem 0rem;
         border-bottom: 1px solid var(--neutral-200);
-        grid-template-columns: 1fr 1fr 1fr 2fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     }
     .row__actions {
         display: flex;

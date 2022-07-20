@@ -13,7 +13,7 @@ export const useTicketStore = defineStore({
         approvedRows: null as null | Array<Number>,
 
         balanceDate: "",
-        amount: null as null | Number,
+        currentBalance: null as null | number,
         preparedBy: null as null | string,
         isBalanceEmpty: false,
 
@@ -26,7 +26,9 @@ export const useTicketStore = defineStore({
         privateFeedbackObj: {} as {[key: string]: string},
         
         isModalShown: false,
-        mode: ""
+        mode: "",
+
+        isHardcopyToggleShown: false
     }),
     actions: {
         updateRowNumbers() {
@@ -56,7 +58,7 @@ export const useTicketStore = defineStore({
             this.approvedReimbursementTotal = total
         },
         updateIsBalanceEmpty() {
-            if (!this.balanceDate || !this.amount || !this.preparedBy) {
+            if (!this.balanceDate || !this.preparedBy) {
                 this.isBalanceEmpty = true
             } else {
                 this.isBalanceEmpty = false

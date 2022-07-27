@@ -149,7 +149,7 @@ function updateIsModalShown() {
                 </div>
             <div class="forecast__modal">
                 <div class="modal__title">Forecast Output</div>
-                <img class="modal__graph" src="../assets/graph.PNG"/>
+                <img class="modal__graph" src="../assets/graph.png"/>
                 <div class="modal__title">Input Definitions</div>
                 <div class="modal__row">
                     <div class="modal__word">Start Date</div>

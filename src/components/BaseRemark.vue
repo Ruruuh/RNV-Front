@@ -17,8 +17,8 @@
     })
     
     const admin = computed(() => {
-        const roles = ["director", "hsu", "hr", "sdas", "finance"]
-        const rolesTitleCase = ["Director", "HSU", "HR", "SDAS", "Finance"]
+        const roles = ["director", "sdirector", "hsu", "hr", "sdas", "finance"]
+        const rolesTitleCase = ["Director", "Senior Director", "HSU", "HR", "SDAS", "Finance"]
         const index = roles.indexOf(props.roleListItem as string)
         return rolesTitleCase[index]
     })

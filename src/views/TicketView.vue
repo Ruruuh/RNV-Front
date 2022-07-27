@@ -3,6 +3,7 @@ import TicketInfo from '@/components/TicketInfo.vue'
 import TicketReimbursement from '@/components/TicketReimbursement.vue'
 import TicketUploads from '@/components/TicketUploads.vue'
 import TicketBalance from '@/components/TicketBalance.vue'
+import TicketStatus from '@/components/TicketStatus.vue'
 import TicketRemarks from '@/components/TicketRemarks.vue'
 import TicketModal from '@/components/TicketModal.vue'
 import TicketHardcopy from '@/components/TicketHardcopy.vue'
@@ -74,6 +75,7 @@ onBeforeMount(() => {
         <ticket-reimbursement></ticket-reimbursement>
         <ticket-uploads></ticket-uploads>
         <ticket-balance></ticket-balance>
+        <ticket-status></ticket-status>
         <ticket-remarks></ticket-remarks>
         <ticket-modal></ticket-modal>
         <ticket-hardcopy></ticket-hardcopy>

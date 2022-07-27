@@ -41,6 +41,7 @@
         border: 4px solid var(--neutral-700);
         background-color: var(--neutral-50);
         color: var(--neutral-700);
+        height: fit-content;
     }
     .redSmall {
         font-size: 1rem;

@@ -28,7 +28,15 @@ const router = useRouter()
 
 function getActionBy() {
     const roles = ["director", "hsu", "hr", "sdas", "user", "finance", "none"]
-    let index = roles.indexOf(role.value as string)
+    const ccsroles= ["director", "sdirector", "hsu", "hr", "sdas", "user", "finance", "none"]
+
+    let index = 0
+
+    if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
+        index = ccsroles.indexOf(role.value as string)
+    } else {
+        index = roles.indexOf(role.value as string)
+    }
 
     let actionBy = ""
 
@@ -37,7 +45,11 @@ function getActionBy() {
     } else if (approvedReimbursementTotal.value < 500) {
         actionBy = "none"
     } else {
-        actionBy = roles[index + 1]
+        if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
+            actionBy = ccsroles[index + 1]
+        } else {
+            actionBy = roles[index + 1]
+        }
     }
 
     return actionBy
@@ -103,8 +115,15 @@ function getStatus() {
     } else {
         if (actionBy === "none") {
             status = "Completed"
+        } else if (actionBy === "sdirector") {
+            status = "Director Approved"
         } else if (actionBy === "hsu") {
             status = "Director Approved"
+            if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
+                status = "S.Director Approved"
+            } else {
+                status = "Director Approved"
+            }
         } else if (actionBy === "hr") {
             status = "HSU Approved"
         } else if (actionBy === "sdas") {
@@ -164,6 +183,7 @@ async function adminUpdate() {
     const payload = {
         userId: ticket.value?.creatorId,
         ticketId: ticket.value?.id,
+        department: ticket.value?.department,
         crf: ticket.value?.crf,
         email: ticket.value?.creatorInfo.email,
         actionBy: actionBy,

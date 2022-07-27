@@ -18,6 +18,7 @@ export const useTicketStore = defineStore({
         isBalanceEmpty: false,
 
         isInputBlank: false,
+        feedbackStatus: "",
         publicRemarksInput: "",
         privateRemarksInput: "",
         publicFeedback: {},

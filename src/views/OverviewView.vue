@@ -37,7 +37,7 @@ function searchSurname(pattern, text) {
     for (let i = 0; i < text.length; i++) {
         if (text[i] === "-") {
             indexRef[i] = curIndex
-            curIndex++ 
+            curIndex++
         }
     }
 
@@ -199,7 +199,8 @@ onBeforeMount(() => {
                 </div>
                 <base-row @viewRow="viewTicket($event)" class="overview__row" v-for="ticket in tickets"
                     :key="ticket.rowNumber" :id="ticket.id" :rowNumber="ticket.rowNumber" :crf="ticket.crf"
-                    :date="ticket.createdAt.toString().slice(0, 10)" :status="ticket.status" mode="overview"></base-row>
+                    :date="ticket.createdAt.toString().slice(0, 10)" :status="ticket.status"
+                    :department="ticket.department" mode="overview"></base-row>
             </div>
         </div>
     </section>

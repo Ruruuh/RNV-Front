@@ -67,8 +67,8 @@
         }
         .header__banner {
             background-image: url('../assets/logo.png');
-            background-size: cover;
-            background-color: #facc15;
+            background-size: contain;
+            background-color: var(--green-800);
             width: 30rem;
             height: 6.2rem;
         }

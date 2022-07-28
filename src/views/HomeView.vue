@@ -13,7 +13,7 @@ const searchInput = ref("")
 const isModalShown = ref(false)
 
 const store = useUserStore()
-const { userId, role, department, token } = storeToRefs(store)
+const { userId, role, userDepartment, token } = storeToRefs(store)
 
 const roles = ["director", "hsu", "hr", "sdas", "finance", "none"]
 const rolesTitleCase = ["Director", "HSU", "HR", "SDAS", "Finance"]
@@ -121,7 +121,7 @@ async function getAllTickets() {
             "Mathematics and Physical Sciences",
             "Humanities, Social Sciences, and Communication"
         ]
-        const index = departments.indexOf(department.value as string)
+        const index = departments.indexOf(userDepartment.value as string)
         const deptTitle = deptTitleCase[index]
         ticketsRes.forEach(ticket => {
             if (ticket.department === deptTitle) {

@@ -9,7 +9,7 @@ import nprogress from "nprogress"
 
 const userStore = useUserStore()
 const ticketStore = useTicketStore()
-const { userId, role, token } = storeToRefs(userStore)
+const { userId, role, token, userDepartment } = storeToRefs(userStore)
 const {
     ticket,
     approvedRows,
@@ -32,7 +32,7 @@ function getActionBy() {
 
     let index = 0
 
-    if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
+    if (ticket.value?.department === 'Computer Science' || ticket.value?.department === 'Information Technology') {
         index = ccsroles.indexOf(role.value as string)
     } else {
         index = roles.indexOf(role.value as string)
@@ -45,7 +45,7 @@ function getActionBy() {
     } else if (approvedReimbursementTotal.value < 500) {
         actionBy = "none"
     } else {
-        if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
+        if (ticket.value?.department === 'Computer Science' || ticket.value?.department === 'Information Technology') {
             actionBy = ccsroles[index + 1]
         } else {
             actionBy = roles[index + 1]
@@ -119,7 +119,7 @@ function getStatus() {
             status = "Director Approved"
         } else if (actionBy === "hsu") {
             status = "Director Approved"
-            if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
+            if (ticket.value?.department === 'Computer Science' || ticket.value?.department === 'Information Technology') {
                 status = "S.Director Approved"
             } else {
                 status = "Director Approved"
@@ -183,7 +183,7 @@ async function adminUpdate() {
     const payload = {
         userId: ticket.value?.creatorId,
         ticketId: ticket.value?.id,
-        department: ticket.value?.department,
+        department: userDepartment, 
         crf: ticket.value?.crf,
         email: ticket.value?.creatorInfo.email,
         actionBy: actionBy,

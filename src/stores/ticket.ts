@@ -103,7 +103,7 @@ export const useTicketStore = defineStore({
             this.privateFeedback = {}
             this.publicFeedbackObj = {}
             this.privateFeedbackObj = {}
-            const roles = ["director", "hsu", "hr", "sdas", "finance"]
+            const roles = ["director", "sdirector", "hsu", "hr", "sdas", "finance"]
             const remarks = this.ticket?.remarks
             remarks?.forEach(remark => {
                 if (remark.type === "public") {

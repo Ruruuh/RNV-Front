@@ -13,7 +13,7 @@ export const useUserStore = defineStore({
     	firstName: null as null | string,
     	lastName: null as null | string,
     	role: null as null | string,
-		department: null as null | string,
+		userDepartment: null as null | string,
 		balance: null as null | number,
 
     	overview: null as null | string
@@ -26,7 +26,7 @@ export const useUserStore = defineStore({
 			this.firstName = payload.firstName
 			this.lastName = payload.lastName
 			this.role = payload.role
-			this.department = payload.department,
+			this.userDepartment= payload.department,
 			this.balance = payload.balance
 		},
 		updateState(payload: UserResponse) {
@@ -40,7 +40,7 @@ export const useUserStore = defineStore({
 				this.firstName = user.firstName
 				this.lastName = user.lastName
 				this.role = user.role
-				this.department = user.department
+				this.userDepartment= user.department
 				this.balance = user.balance
 			}
 		},

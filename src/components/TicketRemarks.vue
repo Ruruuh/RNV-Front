@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeMount } from "vue"
+import { computed } from "vue"
 import { storeToRefs } from "pinia"
 import { useUserStore } from "@/stores/user"
 import { useTicketStore } from "@/stores/ticket"
@@ -10,18 +10,12 @@ const ticketstore = useTicketStore()
 const { role, overview } = storeToRefs(userstore)
 const { ticket, isInputBlank, publicFeedback, privateFeedback } = storeToRefs(ticketstore)
 
-let roles: string[] = []
-
-function updateRoles() {
-    if (ticket.value?.department === 'CS' || ticket.value?.department === 'IT') {
-        roles = ["director", "sdirector", "hsu", "hr", "sdas", "finance"]
+const roles = computed(() => {
+    if (ticket.value?.department === 'Computer Science' || ticket.value?.department === 'Information Technology') {
+        return ["director", "sdirector", "hsu", "hr", "sdas", "finance"]
     } else {
-        roles = ["director", "hsu", "hr", "sdas", "finance"]
+        return ["director", "hsu", "hr", "sdas", "finance"]
     }
-}
-
-onBeforeMount(() => {
-    updateRoles()
 })
 </script>
 

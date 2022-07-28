@@ -113,7 +113,7 @@
         if (files.value) {
             for (let i = 0; i < files.value.length; i++) {
                 images.push({
-                    link: "http://159.223.45.163/uploads/" + files.value[i].name
+                    link: "http://localhost:3333/uploads/" + files.value[i].name
                 })
             }
         }

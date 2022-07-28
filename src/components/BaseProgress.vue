@@ -14,14 +14,14 @@ function updateStatus() {
 
     let roleIndex = 0
 
-    if (props.department === 'CS' || props.department === 'IT') {
+    if (props.department === 'Computer Science' || props.department === 'Information Technology') {
         roleIndex = ccsroles.indexOf(props.actionBy)
     } else {
         roleIndex = roles.indexOf(props.actionBy)
     }
 
     if (props.actionBy === "none") {
-        if (props.department === 'CS' || props.department === 'IT') {
+        if (props.department === 'Computer Science' || props.department === 'Information Technology') {
             for (let i = 0; i < ccsroles.length; i++) {
                 completed.value.push(roles[i])
             }

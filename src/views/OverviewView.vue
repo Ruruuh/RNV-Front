@@ -11,7 +11,7 @@ import nprogress from "nprogress"
 const props = defineProps(["overviewType"])
 
 const store = useUserStore()
-const { userId, role, department, token } = storeToRefs(store)
+const { userId, role, userDepartment, token } = storeToRefs(store)
 
 const tickets = ref<null | Ticket[]>(null)
 const searchInput = ref("")
@@ -131,7 +131,7 @@ async function getTickets(role: string, id: number, status: string) {
         "Mathematics and Physical Sciences",
         "Humanities, Social Sciences, and Communication"
     ]
-    const index = departments.indexOf(department.value as string)
+    const index = departments.indexOf(userDepartment.value as string)
     const deptTitle = deptTitleCase[index]
 
     if (role === "director") {

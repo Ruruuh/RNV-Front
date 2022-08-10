@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import type { Ticket, Reimbursement } from "@/types"
+import CreateReimbursementVue from "@/components/CreateReimbursement.vue"
 
 export const useTicketStore = defineStore({
     id: "ticket",
@@ -11,6 +12,7 @@ export const useTicketStore = defineStore({
         reimbursementTotal: 0,
         approvedReimbursementTotal: 0,
         approvedRows: null as null | Array<Number>,
+        isAllApproved: false,
 
         balanceDate: "",
         currentBalance: null as null | number,
@@ -96,6 +98,45 @@ export const useTicketStore = defineStore({
                     this.approvedRows = approvedRowsArr
                 }
             }
+            // this.ticket?.reimbursements.forEach(reimbursement => {
+            //     if (approvedRowsArr?.includes(reimbursement.id)) {
+            //         reimbursement.approved = true
+            //     } else {
+            //         reimbursement.approved = false
+            //     }
+            // })
+            this.updateApprovedReimbursementTotal()
+        },
+        updateIsAllApproved() {
+            this.isAllApproved = !this.isAllApproved
+        },
+        updateApprovals() {
+            if (!this.isAllApproved) {
+                this.updateIsAllApproved()
+                this.ticket?.reimbursements.forEach(reimbursement => {
+                    reimbursement.approved = true
+                })
+                this.approveAll()
+                console.log('updateApprovals')
+            } else {
+                this.updateIsAllApproved()
+                this.ticket?.reimbursements.forEach(reimbursement => {
+                    reimbursement.approved = false
+                })
+                console.log('removeApprovals')
+                this.removeApprovals()
+            }
+        },
+        approveAll() {
+            let approvedRowsArr: number[] = []
+            this.ticket?.reimbursements.forEach(reimbursement => {
+                approvedRowsArr.push(reimbursement.id)
+            })
+            this.approvedRows = approvedRowsArr
+            this.updateApprovedReimbursementTotal()
+        },
+        removeApprovals() {
+            this.approvedRows = []
             this.updateApprovedReimbursementTotal()
         },
         getRemarks() {

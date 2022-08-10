@@ -10,8 +10,8 @@ const router = useRouter()
 
 const email = ref("")
 const password = ref("")
-const doesEmailExist = ref(false)
-const doesPasswordMatch = ref(false)
+const doesEmailExist = ref(true)
+const doesPasswordMatch = ref(true)
 
 function goBack() {
     router.go(-1)
@@ -27,8 +27,8 @@ function updateDoesPasswordMatch(status: boolean) {
 
 async function login() {
     nprogress.start()
-    updateDoesEmailExist(false)
-    updateDoesPasswordMatch(false)
+    updateDoesEmailExist(true)
+    updateDoesPasswordMatch(true)
 
     const payload = {
         email: email.value,
@@ -39,11 +39,11 @@ async function login() {
 
     if (response) {
         if (response.message?.includes("User")) {
-            updateDoesEmailExist(true)
+            updateDoesEmailExist(false)
             nprogress.done()
             return
         } else if (response.message?.includes("Password")) {
-            updateDoesPasswordMatch(true)
+            updateDoesPasswordMatch(false)
             nprogress.done()
             return
         }
@@ -66,9 +66,9 @@ async function login() {
         <div class="login__header">Login.</div>
         <form @submit.prevent="login" class="login__form">
             <input type="text" placeholder="Email" v-model="email" required />
-            <div v-if="doesEmailExist" class="error">Email does not exist. Please register.</div>
+            <div v-if="!doesEmailExist" class="error">Email does not exist. Please register.</div>
             <input type="password" placeholder="Password" v-model="password" required />
-            <div v-if="doesPasswordMatch" class="error">Password did not match the email used. Please try again.</div>
+            <div v-if="!doesPasswordMatch" class="error">Password did not match the email used. Please try again.</div>
             <base-button type="submit" mode="dark">Login</base-button>
         </form>
     </section>

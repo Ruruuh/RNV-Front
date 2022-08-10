@@ -150,6 +150,19 @@ function updateIsModalShown() {
             <div class="forecast__modal">
                 <div class="modal__title">Forecast Output</div>
                 <img class="modal__graph" src="../assets/graph.png"/>
+                <div class="modal__title">Forecast Definitions</div>
+                <div class="modal__row">
+                    <div class="modal__word">Test Forecast</div>
+                    <div class="modal__desc">Why make a test forecast? This is because a forecast is as good as the data used to train it. The amount of data in the system can be lacking. We want to make sure that our forecasting model works.</div>
+                </div>
+                <div class="modal__row">
+                    <div class="modal__word">Actual Forecast</div>
+                    <div class="modal__desc">This uses the actual data within the system.</div>
+                </div>
+                <div class="modal__title">How do we test?</div>
+                <div class="modal__row">
+                    <div class="modal__desc">We generate random test data. We place limits on the randomly generated data. We try to make a forecast using this data. If the ouput graph matches the limits on our data, it means that the training model works.</div>
+                </div>
                 <div class="modal__title">Input Definitions</div>
                 <div class="modal__row">
                     <div class="modal__word">Start Date</div>
@@ -165,50 +178,23 @@ function updateIsModalShown() {
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Number of Days</div>
-                    <div class="modal__desc">This is the number of random data generated. A single piece of datum
-                        consists
-                        of a random input and output. The input consists of two values: one representing the month, and
-                        another representing the day. The output is a random percentage of the number of employees that
-                        files a ticket on the date generated in the input.</div>
+                    <div class="modal__desc">This is the number of random data generated. A single piece of data contains an input and output. The input is the date. The output is the number of people making a ticket on that date.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">First Quarter</div>
-                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
-                        percentage of employees generated for a piece of datum for the first quarter.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the first quarter. For example, we want only 20 to 40 percent of employees to make a request to the system from January to March. To enforce that, we place 20 on the left and 40 on the right of the 'First Quarter' input.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Second Quarter</div>
-                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
-                        percentage of employees generated for a piece of datum for the second quarter.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the second quarter.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Third Quarter</div>
-                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
-                        percentage of employees generated for a piece of datum for the third quarter.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the third quarter.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Fourth Quarter</div>
-                    <div class="modal__desc">This is the upper(right input) and lower(left input) limit of the random
-                        percentage of employees generated for a piece of datum for the fourth quarter.</div>
-                </div>
-                <div class="modal__title">Forecast Definitions</div>
-                <div class="modal__row">
-                    <div class="modal__word">Test Forecast</div>
-                    <div class="modal__desc">This uses a user-specified number of randomly generated data for training
-                        and
-                        validating the neural network model. Aside from that, there are constraints for the number of
-                        request tickets for each quarter of the year. The reasoning behind this is to ensure the
-                        capability
-                        of the model to provide results provided that it is trained with a large dataset. This gives us
-                        additional confidence that the forecasting model works as intended in the absence of a large
-                        dataset
-                        to use for training.</div>
-                </div>
-                <div class="modal__row">
-                    <div class="modal__word">Actual Forecast</div>
-                    <div class="modal__desc">This uses the actual number of tickets at their created dates in order to
-                        train
-                        and validate the forecasting model.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the fourth quarter.</div>
                 </div>
             </div>
         </base-modal>

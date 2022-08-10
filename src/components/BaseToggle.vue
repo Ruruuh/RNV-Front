@@ -1,11 +1,11 @@
 <script setup lang="ts">
-    import { ref, onBeforeMount } from "vue"
+    import { ref, onBeforeMount, watch } from "vue"
     import { storeToRefs } from "pinia"
     import { useUserStore } from "@/stores/user"
 
     const props = defineProps(["approved"])
 
-    const isToggleShown = ref<null | boolean>(null)
+    const isToggleShown = ref<null | boolean>(false)
 
     const store = useUserStore()
     const { role, overview } = storeToRefs(store)
@@ -19,9 +19,15 @@
             return
         } else {
             isToggleShown.value = !isToggleShown.value
+            console.log('triggered')
         }
     }
 
+    watch(() => props.approved, () => {
+        if (props.approved !== isToggleShown.value) {
+            updateIsToggleShown()
+        }
+    })
     onBeforeMount(() => {
         if (!props.approved) {
             isToggleShown.value = false

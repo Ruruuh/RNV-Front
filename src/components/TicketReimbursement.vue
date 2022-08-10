@@ -21,7 +21,10 @@
                 <div>OR Number</div>
                 <div>Amount</div>
                 <div>Nature</div>
-                <div>Approve</div>
+                <div class="reimbursement__approve">
+                    <div>Approve</div>
+                    <base-toggle @click="ticketStore.updateApprovals" ></base-toggle>
+                </div>
             </div>
         </div>
         <base-row            
@@ -71,6 +74,11 @@
     }
     .reimbursement__row:nth-child(odd) {
         background-color: var(--neutral-100);
+    }
+    .reimbursement__approve {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
     }
     .reimbursement__total {
         margin: 2rem 0rem;

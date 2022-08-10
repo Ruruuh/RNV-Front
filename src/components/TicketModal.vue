@@ -235,7 +235,6 @@ async function updateTicket() {
         const diffInMs = end - start
         const diffInDays = diffInMs / (1000 * 60 * 60 * 24)
 
-        console.log(diffInDays)
         if (diffInDays > 7) {
             nprogress.start()
             const url = "/api/tickets/user/" + ticket.value?.crf

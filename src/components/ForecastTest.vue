@@ -23,6 +23,7 @@ const {
 
 const display = ref<HTMLElement>()
 const isModalShown = ref<boolean>(false)
+const isExplanationShown = ref<boolean>(false)
 
 function getLimits() {
     const limits = {
@@ -85,6 +86,7 @@ function getPlot() {
     } else {
         display.value?.appendChild(nnPlot)
     }
+    isExplanationShown.value = !isExplanationShown.value
 }
 
 function updateIsModalShown() {
@@ -140,6 +142,10 @@ function updateIsModalShown() {
         <div class="forecast__title">Test Forecast Output</div>
         <div class="forecast__display" ref="display">
             <div class="forecast__placeholder">Forecast using test data will show up here.</div>
+        </div>
+        <div class="forecast__explanation" v-if="isExplanationShown">
+            <div class="forecast__explanation-title">Explanation</div>
+            <div class="forecast__explanation-copy">The graph shows the projected number of demand between {{ startDate?.toString().slice(5, startDate.toString().length) }} and {{ endDate?.toString().slice(5, endDate.toString().length) }}. You can take a point on the line graph and you would get the number of projected demand on the y-axis at a given date on the x-axis. It can be seen that the values of projected demand reflect the trend that we have set in the first to fourth quarter input. For example, between January and March, the projected demand does not go beyond the limits of {{ qOneLower }} percent to {{ qOneUpper}} percent of {{ testEmployees }} employees. From that, we can have confidence that the model works as intended.</div>
         </div>
     </div>
     <Teleport to="#app">
@@ -278,6 +284,15 @@ label {
 .forecast__display {
     width: 900px;
     height: 600px;
+}
+
+.forecast__explanation {
+    width: 900px;
+}
+
+.forecast__explanation-title {
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .forecast__placeholder {

@@ -23,6 +23,14 @@
         }
     }
 
+    const click = () => {
+        updateIsToggleShown()
+    }
+
+    defineExpose ({
+        click,
+    })
+
     watch(() => props.approved, () => {
         if (props.approved !== isToggleShown.value) {
             updateIsToggleShown()

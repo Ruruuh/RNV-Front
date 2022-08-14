@@ -97,7 +97,15 @@ export const useTicketStore = defineStore({
                     approvedRowsArr.push(reimbursementId)
                     this.approvedRows = approvedRowsArr
                 }
+                this.updateAllApprovedToggle()
             }
+            this.ticket?.reimbursements.forEach(reimbursement => {
+                if (this.approvedRows?.includes(reimbursement.id)) {
+                    reimbursement.approved = true
+                } else {
+                    reimbursement.approved = false
+                }
+            })
             // this.ticket?.reimbursements.forEach(reimbursement => {
             //     if (approvedRowsArr?.includes(reimbursement.id)) {
             //         reimbursement.approved = true
@@ -109,6 +117,22 @@ export const useTicketStore = defineStore({
         },
         updateIsAllApproved() {
             this.isAllApproved = !this.isAllApproved
+        },
+        updateAllApprovedToggle() {
+            if (this.approvedRows === null || this.approvedRows.length === 0) {
+                this.isAllApproved = !this.isAllApproved
+            }
+            const reimbursementIds: number[] = []
+            const approvedRows: null | number[] = this.approvedRows as number[]
+            this.ticket?.reimbursements.forEach(reimbursement => {
+                reimbursementIds.push(reimbursement.id)
+            })
+            reimbursementIds.sort((a, b) => a < b ? -1 : a > b ? 1 : 0)
+            approvedRows.sort((a, b) => a < b ? -1 : a > b ? 1 : 0)
+
+            if (reimbursementIds.length === approvedRows.length && reimbursementIds.every(function(value, index) { return value === approvedRows[index] })) {
+                this.isAllApproved = !this.isAllApproved
+            }
         },
         updateApprovals() {
             if (!this.isAllApproved) {

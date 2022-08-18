@@ -28,6 +28,7 @@
         if(isAllApproved.value === true && isApprovedRowsFull) {
             approveAllToggle.value?.click()
         }
+        ticketStore.updateFeedbackStatus()
     }
 </script>
 

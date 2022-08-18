@@ -40,8 +40,8 @@ function updateInput() {
                 <option value="">-- Please choose status --</option>
                 <option value="approved">Approved</option>
                 <option value="some">Some Approved</option>
-                <option value="total">Reimbursement Total Under Minimum</option>
-                <option value="balance">Client Balance Insufficient</option>
+                <option value="total" v-if="role === 'hr' || role === 'finance'">Reimbursement Total Under Minimum</option>
+                <option value="balance" v-if="role === 'hr' || role === 'finance'">Client Balance Insufficient</option>
                 <option value="invalid">Not Valid</option>
             </select>
         </div>

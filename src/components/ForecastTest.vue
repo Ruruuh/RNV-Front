@@ -113,30 +113,40 @@ function updateIsModalShown() {
         <div class="forecast__amount">
             <label for="forecast__employees">Number of Employees</label>
             <input type="number" v-model="testEmployees" id="forecast__employees" />
+            <div>Employees</div>
         </div>
         <div class="forecast__amount">
             <label for="forecast__days">Number of Days</label>
             <input type="number" v-model="testDays" id="forecast__days" />
+            <div>Days</div>
         </div>
         <div class="forecast__range">
             <label for="forecast__range">First Quarter</label>
             <input type="number" v-model="qOneLower" id="forecast__range" />
+            <div>%</div>
             <input type="number" v-model="qOneUpper" id="forecast__range" />
+            <div>%</div>
         </div>
         <div class="forecast__range">
             <label for="forecast__range">Second Quarter</label>
             <input type="number" v-model="qTwoLower" id="forecast__range" />
+            <div>%</div>
             <input type="number" v-model="qTwoUpper" id="forecast__range" />
+            <div>%</div>
         </div>
         <div class="forecast__range">
             <label for="forecast__range">Third Quarter</label>
             <input type="number" v-model="qThreeLower" id="forecast__range" />
+            <div>%</div>
             <input type="number" v-model="qThreeUpper" id="forecast__range" />
+            <div>%</div>
         </div>
         <div class="forecast__range">
             <label for="forecast__range">Fourth Quarter</label>
             <input type="number" v-model="qFourLower" id="forecast__range" />
+            <div>%</div>
             <input type="number" v-model="qFourUpper" id="forecast__range" />
+            <div>%</div>
         </div>
         <base-button @click="getPlot" mode="dark">Forecast</base-button>
         <div class="forecast__title">Test Forecast Output</div>

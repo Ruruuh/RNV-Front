@@ -25,9 +25,9 @@ export const useTicketStore = defineStore({
         privateRemarksInput: "",
         publicFeedback: {},
         privateFeedback: {},
-        publicFeedbackObj: {} as {[key: string]: string},
-        privateFeedbackObj: {} as {[key: string]: string},
-        
+        publicFeedbackObj: {} as { [key: string]: string },
+        privateFeedbackObj: {} as { [key: string]: string },
+
         isModalShown: false,
         mode: "",
 
@@ -106,13 +106,6 @@ export const useTicketStore = defineStore({
                     reimbursement.approved = false
                 }
             })
-            // this.ticket?.reimbursements.forEach(reimbursement => {
-            //     if (approvedRowsArr?.includes(reimbursement.id)) {
-            //         reimbursement.approved = true
-            //     } else {
-            //         reimbursement.approved = false
-            //     }
-            // })
             this.updateApprovedReimbursementTotal()
         },
         updateIsAllApproved() {
@@ -130,8 +123,10 @@ export const useTicketStore = defineStore({
             reimbursementIds.sort((a, b) => a < b ? -1 : a > b ? 1 : 0)
             approvedRows.sort((a, b) => a < b ? -1 : a > b ? 1 : 0)
 
-            if (reimbursementIds.length === approvedRows.length && reimbursementIds.every(function(value, index) { return value === approvedRows[index] })) {
-                this.isAllApproved = !this.isAllApproved
+            if (reimbursementIds.length === approvedRows.length && reimbursementIds.every(function (value, index) { return value === approvedRows[index] })) {
+                this.isAllApproved = true
+            } else {
+                this.isAllApproved = false
             }
         },
         updateApprovals() {
@@ -150,6 +145,7 @@ export const useTicketStore = defineStore({
                 console.log('removeApprovals')
                 this.removeApprovals()
             }
+            this.updateFeedbackStatus()
         },
         approveAll() {
             let approvedRowsArr: number[] = []
@@ -190,6 +186,34 @@ export const useTicketStore = defineStore({
                     this.privateFeedback[role] = "-"
                 }
             })
+        },
+        updateFeedbackStatus() {
+            if (this.isAllApproved) {
+                this.feedbackStatus = 'approved'
+            } else if (this.approvedRows) {
+                if (this.approvedRows.length > 0 && !this.isAllApproved) {
+                    this.feedbackStatus = 'some'
+                } else if (this.approvedRows.length === 0) {
+                    this.feedbackStatus = 'invalid'
+                }
+            }
+
+            let input = ''
+
+            if (this.feedbackStatus=== 'approved') {
+                input = 'Approved. All attachments and requirements are validated for reimbursement.'
+            } else if (this.feedbackStatus=== 'some') {
+                input = 'Approved. Some attachments and requirements are not valid for reimbursement. Only selected reimbursements are approved.'
+            } else if (this.feedbackStatus=== 'total') {
+                input = 'Rejected. Attachments and requirements are validated, but the total amount needed for reimbursement is below the minimum 500.'
+            } else if (this.feedbackStatus=== 'balance') {
+                input = 'Rejected. Attachments and requirements are validated, but the associate balance is insufficient.'
+            } else if (this.feedbackStatus=== 'invalid') {
+                input = 'Rejected. All attachments and requirements are not valid for reimbursement.'
+            }
+
+            this.publicRemarksInput = input
+            this.privateRemarksInput = input
         }
-     }
+    }
 })

@@ -91,6 +91,7 @@ onBeforeMount(() => {
         <div class="forecast__amount">
             <label for="forecast__employees">Number of Employees</label>
             <input type="number" v-model="actualEmployees" id="forecast__employees" />
+            <div>Employees</div>
         </div>
         <base-button @click="getPlot" mode="dark">Forecast</base-button>
         <div class="forecast__title">Actual Forecast Output</div>

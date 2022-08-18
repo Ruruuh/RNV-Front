@@ -4,11 +4,10 @@ import type { Reimbursement } from "@/types"
 export const useCreateStore = defineStore({
     id: "create",
     state: () => ({
-        purpose: "",
+        purpose: "Medical Reimbursement",
         office: "",
         department: "",
 
-        isPurposeEmpty: false,
         isOfficeEmpty: false,
         isDepartmentEmpty: false,
         isDateEmpty: false,
@@ -35,13 +34,6 @@ export const useCreateStore = defineStore({
     actions: {
         updateIsModalDisplayed() {
             this.isModalDisplayed = !this.isModalDisplayed
-        },
-        updateIsPurposeEmpty() {
-            if (this.purpose === "") {
-                this.isPurposeEmpty = true
-            } else {
-                this.isPurposeEmpty = false
-            }
         },
         updateIsOfficeEmpty() {
             if (this.office === "") {

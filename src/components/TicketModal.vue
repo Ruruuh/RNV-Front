@@ -108,10 +108,14 @@ function getBalance() {
 function getStatus() {
     let status = ""
     const actionBy = getActionBy()
+    const roles= ["director", "sdirector", "hsu", "hr", "sdas", "finance"]
+    const rolesTitleCase = ["Director", "S.Director", "HSU", "HR", "SDAS", "Finance"]
+    const roleTitleCaseIndex = roles.indexOf(role.value as string)
+    const roleTitleCase = rolesTitleCase[roleTitleCaseIndex]
     if (approvedRows.value?.length === 0) {
-        status = "Rejected"
+        status = `${roleTitleCase} Rejected`
     } else if (approvedReimbursementTotal.value < 500) {
-        status = "Rejected"
+        status = `${roleTitleCase} Rejected`
     } else {
         if (actionBy === "none") {
             status = "Completed"

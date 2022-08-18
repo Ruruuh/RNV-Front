@@ -15,8 +15,36 @@
     const isPasswordSame = ref(true)
     const isEmailUnique = ref(true)
 
+    const hasSmallChar = ref(false)
+    const hasLargeChar = ref(false)
+    const hasNumChar = ref(false)
+    const hasSpecialChar = ref(false)
+    const isMinLength = ref(false)
+    const isPasswordValid = ref(true)
+
     function goBack() {
         router.go(-1)
+    }
+
+    function updateIsPasswordValid() {
+        if (hasSmallChar.value && hasLargeChar.value && hasNumChar.value && hasSpecialChar.value && isMinLength.value) {
+            isPasswordValid.value = true
+        } else {
+            isPasswordValid.value = false
+        }
+    }
+
+    function checkPasswordValidity(password) {
+        const smallChar = new RegExp('[a-z]+')
+        const largeChar = new RegExp('[A-Z]+')
+        const numChar = new RegExp('[0-9]+')
+        const specialChar = new RegExp('[^a-zA-Z0-9]+')
+
+        smallChar.test(password) ? hasSmallChar.value = true : hasSmallChar.value = false
+        largeChar.test(password) ? hasLargeChar.value = true : hasLargeChar.value = false
+        numChar.test(password) ? hasNumChar.value = true : hasNumChar.value = false
+        specialChar.test(password) ? hasSpecialChar.value = true : hasSpecialChar.value = false
+        password.length >= 8 ? isMinLength.value = true : isMinLength.value = false
     }
 
     function updateIsPasswordSame() {
@@ -33,6 +61,13 @@
 
     async function register() {
         nprogress.start()
+        if (!(hasSmallChar.value && hasLargeChar.value && hasNumChar.value && hasSpecialChar.value && isMinLength.value)) {
+            updateIsPasswordValid()
+            nprogress.done()
+            return
+        } else {
+            updateIsPasswordValid()
+        }
         if (password.value !== passwordCheck.value) {
             updateIsPasswordSame()
             nprogress.done()
@@ -92,7 +127,13 @@
             </select>
             <input type="text" placeholder="Email" v-model="email" required />
             <div v-if="!isEmailUnique" class="error">Email is already registred. Please use a different one.</div>
-            <input type="password" placeholder="Password" v-model="password" required />
+            <input type="password" placeholder="Password" @input="checkPasswordValidity(password)" @change="checkPasswordValidity(password)" v-model="password" required />
+            <div class="guide" :class="hasSmallChar ? 'valid' : 'invalid'" v-if="password.length > 0">&nbsp;&nbsp;- should have at least one(1) small character</div>
+            <div class="guide" :class="hasLargeChar ? 'valid' : 'invalid'" v-if="password.length > 0">&nbsp;&nbsp;- should have at least one(1) large character</div>
+            <div class="guide" :class="hasNumChar ? 'valid' : 'invalid'" v-if="password.length > 0">&nbsp;&nbsp;- should have at least one(1) number</div>
+            <div class="guide" :class="hasSpecialChar ? 'valid' : 'invalid'" v-if="password.length > 0">&nbsp;&nbsp;- should have at least one(1) special character</div>
+            <div class="guide" :class="isMinLength ? 'valid' : 'invalid'" v-if="password.length > 0">&nbsp;&nbsp;- should be at least eight(8) characters long</div>
+            <div v-if="!isPasswordValid" class="error">Password is not valid. Please try again.</div>
             <input type="password" placeholder="Re-enter Password" v-model="passwordCheck" required />
             <div v-if="!isPasswordSame" class="error">Passwords do not match. Please try again.</div>
             <base-button type="submit" mode="dark">Register</base-button>
@@ -138,6 +179,15 @@
         margin: 0.5rem 0rem;
         background-color: white;
         
+    }
+    .guide {
+        font-size: 0.8rem;
+    }
+    .valid {
+        color: var(--green-800);
+    }
+    .invalid {
+        color: var(--red-800);
     }
     .error {
         font-size: 0.8rem;

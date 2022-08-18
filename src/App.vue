@@ -32,7 +32,9 @@
         box-sizing: border-box;
     }
     :root {
+        --green-400: #4ade80;
         --green-800: #166534;
+        --red-400: #f87171;
         --red-800: #991b1b;
         --neutral-50: #fafafa;
         --neutral-100: #f5f5f5;

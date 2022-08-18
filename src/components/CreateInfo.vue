@@ -8,7 +8,6 @@
     const { purpose, 
             office, 
             department, 
-            isPurposeEmpty,
             isOfficeEmpty, 
             isDepartmentEmpty } = storeToRefs(store)
 
@@ -28,9 +27,8 @@
         </div>
         <div class="ticket__row">
             <div class="ticket__label">Purpose</div>
-            <input type="text" v-model="purpose" required />
+            <div>Medical Reimbursement</div>
         </div>
-        <div v-if="isPurposeEmpty" class="error">Please state purpose.</div>
         <div class="ticket__row">
             <div class="ticket__label">Office</div>
             <select class="ticket__office" v-model="office">

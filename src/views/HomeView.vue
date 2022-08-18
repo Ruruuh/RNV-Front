@@ -179,6 +179,8 @@ onBeforeMount(() => {
 
 <template>
     <section class="home">
+        <div class="home__subheader" v-if="role === 'user'">Good day, associate.</div>
+        <div class="home__subheader" v-else>Good day, admin.</div>
         <div class="home__header">Welcome.</div>
         <div class="home__subheader">Here's what you can do.</div>
         <div v-if="role === 'user'" class="home__copy">

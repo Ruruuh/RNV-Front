@@ -51,13 +51,6 @@
 
     async function createTicket() {
         nprogress.start()
-        if (purpose.value === "") {
-            createStore.updateIsPurposeEmpty()
-            nprogress.done()
-            return
-        } else {
-            createStore.updateIsPurposeEmpty()
-        }
         if (office.value === "") {
             createStore.updateIsOfficeEmpty()
             nprogress.done()

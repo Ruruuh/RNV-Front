@@ -120,6 +120,12 @@ function updateIsModalShown() {
             <input type="number" v-model="testDays" id="forecast__days" />
             <div>Days</div>
         </div>
+        <div class="forecast__label">
+            <div class="forecast__empty"></div>
+            <div>Lower Limit</div>
+            <div></div>
+            <div>Upper Limit</div>
+        </div>
         <div class="forecast__range">
             <label for="forecast__range">First Quarter</label>
             <input type="number" v-model="qOneLower" id="forecast__range" />
@@ -155,21 +161,32 @@ function updateIsModalShown() {
         </div>
         <div class="forecast__explanation" v-if="isExplanationShown">
             <div class="forecast__explanation-title">Explanation</div>
-            <div class="forecast__explanation-copy">The graph shows the projected number of demand between {{ startDate?.toString().slice(5, startDate.toString().length) }} and {{ endDate?.toString().slice(5, endDate.toString().length) }}. You can take a point on the line graph and you would get the number of projected demand on the y-axis at a given date on the x-axis. It can be seen that the values of projected demand reflect the trend that we have set in the first to fourth quarter input. For example, between January and March, the projected demand does not go beyond the limits of {{ qOneLower }} percent to {{ qOneUpper}} percent of {{ testEmployees }} employees. From that, we can have confidence that the model works as intended.</div>
+            <div class="forecast__explanation-copy">The graph shows the projected number of demand between {{
+                    startDate?.toString().slice(5, startDate.toString().length)
+            }} and {{ endDate?.toString().slice(5,
+        endDate.toString().length)
+}}. You can take a point on the line graph and you would get the number of
+                projected demand on the y-axis at a given date on the x-axis. It can be seen that the values of
+                projected demand reflect the trend that we have set in the first to fourth quarter input. For example,
+                between January and March, the projected demand does not go beyond the limits of {{ qOneLower }} percent
+                to {{ qOneUpper }} percent of {{ testEmployees }} employees. From that, we can have confidence that the
+                model works as intended.</div>
         </div>
     </div>
     <Teleport to="#app">
         <base-modal v-if="isModalShown">
-                <div class="forecast__close-wrapper">
-                    <div @click="updateIsModalShown" class="forecast__close"></div>
-                </div>
+            <div class="forecast__close-wrapper">
+                <div @click="updateIsModalShown" class="forecast__close"></div>
+            </div>
             <div class="forecast__modal">
                 <div class="modal__title">Forecast Output</div>
-                <img class="modal__graph" src="../assets/graph.png"/>
+                <img class="modal__graph" src="../assets/graph.png" />
                 <div class="modal__title">Forecast Definitions</div>
                 <div class="modal__row">
                     <div class="modal__word">Test Forecast</div>
-                    <div class="modal__desc">Why make a test forecast? This is because a forecast is as good as the data used to train it. The amount of data in the system can be lacking. We want to make sure that our forecasting model works.</div>
+                    <div class="modal__desc">Why make a test forecast? This is because a forecast is as good as the data
+                        used to train it. The amount of data in the system can be lacking. We want to make sure that our
+                        forecasting model works.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Actual Forecast</div>
@@ -177,7 +194,9 @@ function updateIsModalShown() {
                 </div>
                 <div class="modal__title">How do we test?</div>
                 <div class="modal__row">
-                    <div class="modal__desc">We generate random test data. We place limits on the randomly generated data. We try to make a forecast using this data. If the ouput graph matches the limits on our data, it means that the training model works.</div>
+                    <div class="modal__desc">We generate random test data. We place limits on the randomly generated
+                        data. We try to make a forecast using this data. If the ouput graph matches the limits on our
+                        data, it means that the training model works.</div>
                 </div>
                 <div class="modal__title">Input Definitions</div>
                 <div class="modal__row">
@@ -194,23 +213,31 @@ function updateIsModalShown() {
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Number of Days</div>
-                    <div class="modal__desc">This is the number of random data generated. A single piece of data contains an input and output. The input is the date. The output is the number of people making a ticket on that date.</div>
+                    <div class="modal__desc">This is the number of random data generated. A single piece of data
+                        contains an input and output. The input is the date. The output is the number of people making a
+                        ticket on that date.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">First Quarter</div>
-                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the first quarter. For example, we want only 20 to 40 percent of employees to make a request to the system from January to March. To enforce that, we place 20 on the left and 40 on the right of the 'First Quarter' input.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees
+                        generated as output for the first quarter. For example, we want only 20 to 40 percent of
+                        employees to make a request to the system from January to March. To enforce that, we place 20 on
+                        the left and 40 on the right of the 'First Quarter' input.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Second Quarter</div>
-                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the second quarter.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees
+                        generated as output for the second quarter.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Third Quarter</div>
-                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the third quarter.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees
+                        generated as output for the third quarter.</div>
                 </div>
                 <div class="modal__row">
                     <div class="modal__word">Fourth Quarter</div>
-                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees generated as output for the fourth quarter.</div>
+                    <div class="modal__desc">This is the upper and lower limit of the random precentage of employees
+                        generated as output for the fourth quarter.</div>
                 </div>
             </div>
         </base-modal>
@@ -256,7 +283,8 @@ function updateIsModalShown() {
 
 .forecast__date,
 .forecast__amount,
-.forecast__range {
+.forecast__range,
+.forecast__label {
     display: flex;
     align-items: center;
     padding: 0.5rem 0rem;
@@ -288,6 +316,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 label {
     font-weight: 700;
+    width: 12rem;
+}
+
+.forecast__empty {
     width: 12rem;
 }
 
@@ -323,10 +355,12 @@ label {
     letter-spacing: 1px;
     overflow: auto;
 }
+
 .forecast__close-wrapper {
     display: flex;
     justify-content: flex-end;
 }
+
 .forecast__close {
     background-image: url("../assets/close.svg");
     background-size: cover;
@@ -343,6 +377,7 @@ label {
     font-size: 1.5rem;
     font-weight: 700;
 }
+
 .modal__word {
     font-size: 1.2rem;
     font-weight: 700;
